@@ -30,11 +30,13 @@ int main(int argc, char *argv[])
 
     Point p2 = {3, 4}; // array syntax makes sense because x 
                        // and y are right next to each other 
-                       // in memory
+                       // in **memory**                             **IMPORTANT
 
     
     printPoint(p1);
     printPointUsingPointers(&p2);
+    
+    cout<<a;
 
     Point p3;
     // let's set p3 = (7, 8) using our initPoint function
