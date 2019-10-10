@@ -3,8 +3,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    // "arr" by itself is a pointer to the first
-    // element
+    // "arr" by itself is a pointer to the FIRST ELEMENT                        **IMPORTANT**
     int arr[]={50, 60, 70};
 
     // the following would be an array of *pointers* to 
