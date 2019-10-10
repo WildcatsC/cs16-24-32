@@ -1,8 +1,7 @@
 /*
     The BIG FOUR 
 
-    1. const a method: will not allow it to modify the objects 
-
+    1. const method: will not allow it to modify the objects 
 
 */
 
@@ -19,14 +18,16 @@ class Date{
         mm = mon;
         dd = day;
     };                          // will be final after the first init
-        void setDate(int mon, int day);
-        int getMonth() const;  // mon will not be modified  
-        int getDay() const;
+    
+	void setDate(int mon, int day);
+    int getMonth() const;  // mon will not be modified  
+    int getDay() const;
         
 
     private:
-        int mm;    // private objects in Date
-        int dd;
+    
+	int mm;    // private objects in Date
+    int dd;
 }; // c++ class remember the ";"
 
 void Date::setDate(int mon, int day){
