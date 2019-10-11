@@ -19,6 +19,6 @@ llist::append(int x){
 		tail = n;	
 	}else{
 		tail->next = n;
-		
+		tail = n;		
 	}
 }
