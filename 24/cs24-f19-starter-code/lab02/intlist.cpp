@@ -9,7 +9,7 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-    Node *s = source.first;//IMPLEMENT THIS
+    Node *s = source.first;
     first = new Node;  // Remember how: a pointer -> a new obj.🍺
     Node *f = first;
     while(s->next){ 
@@ -19,24 +19,24 @@ IntList::IntList(const IntList& source) {
         s = s->next;
     }
     f->next = NULL;
-    f->info = s->info;
+    f->info = s->info; // 只能默认source指的不是NULL
 }
 
 // destructor deletes all nodes
 IntList::~IntList() {
-    //IMPLEMENT THIS
+
     Node *d,*n;
     d = first;
     while(d){
         n = d->next;
-        free(d);
+        delete d;  // free() solwer and no destructor
         d = n;
     }
 }
 
-
 // return sum of values in list
 int IntList::sum() const {
+    if(this->count()==0) return 0;
     Node* n = first;
     int sum = 0;
     if(n->next == 0) return 0;
@@ -47,23 +47,24 @@ int IntList::sum() const {
     sum+=n->info;
     return sum; 
      
-     // REPLACE THIS NON-SOLUTION
 
 }
 
 // returns true if value is in the list; false if not
 bool IntList::contains(int value) const {
+    if(this->count()==0) return false;
     Node *n = first;
     while(n->next != 0){
         if(n->info == value) return true;
         n = n->next;
     }
     if(n->info == value) return true;
-    return false; // REPLACE THIS NON-SOLUTION
+    return false; 
 }
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
+    if(this->count()==0) return 0;
     int max = 0;
     Node *n = first;
     while(n->next){
@@ -71,7 +72,7 @@ int IntList::max() const {
         n = n->next;
     }
     if(n->info > max) max = n->info;
-    return max; // REPLACE THIS NON-SOLUTION
+    return max; 
 }
 
 // returns average (arithmetic mean) of all values, or
@@ -79,21 +80,45 @@ int IntList::max() const {
 double IntList::average() const { 
     int sum = this->sum();// forgot point: this: a pointer. need "->" not "." NOT JAVA!
     int count = this->count();
+    if(sum == 0) return 0;
     double avg = (double)sum/count;
-    return avg; // REPLACE THIS NON-SOLUTION
+    return avg; 
+    
 }
 
 // inserts value as new node at beginning of list
 void IntList::insertFirst(int value) {
     Node *n = first;
-    // IMPLEMENT
+    first = new Node;
+    first->info = value;
+    first->next = n;
+
 }
 
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
-    //IMPLEMENT
+    // this->~IntList(); ?
+
+    while(first){
+        this->deleter();  // 可省略this
+    }
+    
+    Node *n = source.first;
+    while(n!=NULL){
+        this->append(n->info);  // 可省略this
+        n = n->next;
+    }
+    
     return *this;
+}
+
+// helper function: delete
+void IntList::deleter(){
+    Node *n = first->next;
+    delete first;
+    first = n;
+    
 }
 
 
@@ -144,3 +169,4 @@ int IntList::count() const {
     }
     return result;
 }
+
