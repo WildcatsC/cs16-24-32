@@ -9,38 +9,83 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-    //IMPLEMENT THIS
+    Node *s = source.first;//IMPLEMENT THIS
+    first = new Node;  // Remember how: a pointer -> a new obj.🍺
+    Node *f = first;
+    while(s->next){ 
+        f->info = s->info;
+        f->next = new Node;
+        f = f->next;
+        s = s->next;
+    }
+    f->next = NULL;
+    f->info = s->info;
 }
 
 // destructor deletes all nodes
 IntList::~IntList() {
     //IMPLEMENT THIS
+    Node *d,*n;
+    d = first;
+    while(d){
+        n = d->next;
+        free(d);
+        d = n;
+    }
 }
 
 
 // return sum of values in list
 int IntList::sum() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    Node* n = first;
+    int sum = 0;
+    if(n->next == 0) return 0;
+    while(n->next){
+        sum+=n->info;
+        n = n->next;
+    }
+    sum+=n->info;
+    return sum; 
+     
+     // REPLACE THIS NON-SOLUTION
+
 }
 
 // returns true if value is in the list; false if not
 bool IntList::contains(int value) const {
+    Node *n = first;
+    while(n->next != 0){
+        if(n->info == value) return true;
+        n = n->next;
+    }
+    if(n->info == value) return true;
     return false; // REPLACE THIS NON-SOLUTION
 }
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
-    return 0; // REPLACE THIS NON-SOLUTION
+    int max = 0;
+    Node *n = first;
+    while(n->next){
+        if(n->info > max) max = n->info;
+        n = n->next;
+    }
+    if(n->info > max) max = n->info;
+    return max; // REPLACE THIS NON-SOLUTION
 }
 
 // returns average (arithmetic mean) of all values, or
 // 0 if list is empty
-double IntList::average() const {
-    return 0.0; // REPLACE THIS NON-SOLUTION
+double IntList::average() const { 
+    int sum = this->sum();// forgot point: this: a pointer. need "->" not "." NOT JAVA!
+    int count = this->count();
+    double avg = (double)sum/count;
+    return avg; // REPLACE THIS NON-SOLUTION
 }
 
 // inserts value as new node at beginning of list
 void IntList::insertFirst(int value) {
+    Node *n = first;
     // IMPLEMENT
 }
 
