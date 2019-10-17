@@ -8,7 +8,7 @@
 using std::cout;
 
 // copy constructor
-IntList::IntList(const IntList& source) {
+IntList::IntList(const IntList& source) {  // append()?
     Node *s = source.first;
     first = new Node;  // Remember how: a pointer -> a new obj.🍺
     Node *f = first;
@@ -97,7 +97,7 @@ void IntList::insertFirst(int value) {
 
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
-IntList& IntList::operator=(const IntList& source){
+IntList& IntList::operator=(const IntList& source){  // delete the whole shit & append the new values.
     // this->~IntList(); ?
 
     while(first){
