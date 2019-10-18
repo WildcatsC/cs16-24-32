@@ -27,10 +27,6 @@ public:
     IntList& operator=(const IntList& source); //overloaded  (NO CHANGE)
 
 private:
-
-    // (Optional) You can add some private helper functions here.
-    void deleter();
-
     // definition of Node structure (DO NOT CHANGE):
     struct Node {
         int info;
@@ -38,6 +34,11 @@ private:
     };
 
     Node *first; // pointer to first node (DO NOT CHANGE):
+
+    // (Optional) You can add some private helper functions here.
+    void delete_helper1();
+    void delete_helper2(Node* p);
+
 };
 
 #endif

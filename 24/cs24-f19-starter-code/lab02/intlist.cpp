@@ -6,6 +6,7 @@
 
 #include <iostream>
 using std::cout;
+using std::endl;
 
 // copy constructor
 IntList::IntList(const IntList& source) {  // append()?
@@ -27,12 +28,23 @@ IntList::~IntList() {
 
     Node *d,*n;
     d = first;
-    while(d){
+    while(d){  // delete iteratively 
         n = d->next;
         delete d;  // free() solwer and no destructor
         d = n;
     }
+    cout << "deleted!!" << endl;
 }
+    /*
+    delte recursively:
+
+IntList::~IntList(){
+    Node *p = first;
+    delete_helper2(p);
+}
+    
+    
+    */
 
 // return sum of values in list
 int IntList::sum() const {
@@ -101,7 +113,7 @@ IntList& IntList::operator=(const IntList& source){  // delete the whole shit & 
     // this->~IntList(); ?
 
     while(first){
-        this->deleter();  // 可省略this
+        this->delete_helper1();  // 可省略this
     }
     
     Node *n = source.first;
@@ -113,12 +125,22 @@ IntList& IntList::operator=(const IntList& source){  // delete the whole shit & 
     return *this;
 }
 
-// helper function: delete
-void IntList::deleter(){
-    Node *n = first->next;
-    delete first;  // delete 到底会不会删除first?
+// HELPER FUNCTIONS HERE: delete_helper1 and delete_helper2(recursive)
+void IntList::delete_helper1(){
+    Node *n = (first->next);
+    delete first;  // delete 到底会不会删除first? 不会删除指针，但如果指针在对象里的话会把此对象删除。
     first = n;
     
+}
+void IntList::delete_helper2(Node* p){ // RECURSIVE
+    if(p == 0) return;
+    if(p->next == 0){
+        delete p;
+        return;
+    }
+    delete_helper2(p->next);
+    delete p;
+    return;
 }
 
 
