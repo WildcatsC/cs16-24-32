@@ -116,7 +116,7 @@ IntList& IntList::operator=(const IntList& source){  // delete the whole shit & 
 // helper function: delete
 void IntList::deleter(){
     Node *n = first->next;
-    delete first;
+    delete first;  // delete 到底会不会删除first?
     first = n;
     
 }
