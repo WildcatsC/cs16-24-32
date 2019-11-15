@@ -8,6 +8,12 @@ public:
 	a=1;
 	cout << "construct!" << endl;
 	}
+	test(int val){
+		a = val;
+	}
+	~test(){
+	cout << "destruct!"	<< endl;
+	}
 };
 
 int main(){
@@ -31,7 +37,7 @@ cout << "== block2: ==" << endl;
 	
 	// **important** MEMORY LEAK!
 	test *t;
-	t = new test; // 指向一个default对象 a=1
+	t = new test(); // 指向一个default对象 a=1
 	cout << t->a << endl; // 输出1
 	t = t2; // 将t指向了t2那个对象，原来t指的那个已经memory leak了无法访问
 	cout << t->a << endl; // 输出10，t里原来那个a已经没了
