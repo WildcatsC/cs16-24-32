@@ -1,6 +1,11 @@
 // intbst.cpp
 // Implements class IntBST
 // YOUR NAME(S), DATE
+/*
+ 
+ ** 二叉树的一些实现  打印方法用 recursive 最方便   
+
+*/
 
 #include "intbst.h"
 
@@ -79,6 +84,11 @@ void IntBST::printInOrder() const {
 }
 void IntBST::printInOrder(Node *n) const {
     // IMPLEMENT HERE
+    if(n){
+        printInOrder(n->left);
+        cout << n->info << " ";
+        printInOrder(n->right);
+    }
 }
 
 // prints tree data post-order, with helper
@@ -88,6 +98,11 @@ void IntBST::printPostOrder() const {
 
 void IntBST::printPostOrder(Node *n) const {
     // IMPLEMENT HERE
+    if(n){
+    printPostOrder(n->left);
+    printPostOrder(n->right);
+    cout << n->info << " "; 
+    }
 }
 
 // return sum of values in tree
@@ -97,6 +112,15 @@ int IntBST::sum() const {
 
 // recursive helper for sum
 int IntBST::sum(Node *n) const {
+    //cout<<n->info<<endl;
+    if(n){
+        if(n->left == 0 && n->right == 0) return n->info;
+        else{
+            int left = sum(n->left);
+            int right = sum(n->right);
+            return n->info + left +right;
+        }
+    }
     return 0; // REPLACE THIS NON-SOLUTION
 }
 
@@ -107,6 +131,14 @@ int IntBST::count() const {
 
 // recursive helper for count
 int IntBST::count(Node *n) const {
+    if(n){
+        if(n->left == 0 && n-> right == 0) return 1;
+        else{
+            int left = count(n->left);
+            int right = count(n->right);
+            return left+right+1;
+        }
+    }
     return 0; // REPLACE THIS NON-SOLUTION
 }
 
@@ -122,6 +154,20 @@ IntBST::Node* IntBST::getNodeFor(int value, Node* n) const{
 
 // returns true if value is in the tree; false if not
 bool IntBST::contains(int value) const {
+    if(root == 0) return false;
+
+    Node* pt;
+    pt = root; 
+
+    while(pt->info!=value){
+        if(pt->left == 0 && pt->right == 0) return false; 
+
+        if(value < pt->info) pt = pt->left;
+        else pt = pt->right;
+
+        if(!pt) return false;
+    }
+    
     return true; // REPLACE THIS NON-SOLUTION
 }
 
