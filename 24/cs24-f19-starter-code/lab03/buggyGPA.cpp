@@ -15,9 +15,9 @@ int main(int argc, char* argv[])
   int numCourses = int(argc/2);
 
   for (int i = 1; i< argc; i=i+2 ){
-    courseNames[i-1] = string(argv[i]);
-    courseLetterGrades[i-1] = string(argv[i+1]);
-    cout<<courseNames[i-1] << "   "<<courseLetterGrades[i-1]<<endl;
+    courseNames[i/2] = string(argv[i]);
+    courseLetterGrades[i/2] = string(argv[i+1]);
+    cout<<courseNames[i/2] << "   "<<courseLetterGrades[i/2]<<endl;
   }
 
   assignCourseGrade(numCourses, courseLetterGrades, courseGrades );
