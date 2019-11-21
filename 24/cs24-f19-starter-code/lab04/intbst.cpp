@@ -154,6 +154,7 @@ IntBST::Node* IntBST::getNodeFor(int value, Node* n) const{
 
 // returns true if value is in the tree; false if not
 bool IntBST::contains(int value) const {
+
     if(root == 0) return false;
 
     Node* pt;
@@ -162,8 +163,7 @@ bool IntBST::contains(int value) const {
     while(pt->info!=value){
         if(pt->left == 0 && pt->right == 0) return false; 
 
-        if(value < pt->info) pt = pt->left;
-        else pt = pt->right;
+        (value < pt->info)? pt = pt->left : pt = pt->right;
 
         if(!pt) return false;
     }
@@ -173,12 +173,49 @@ bool IntBST::contains(int value) const {
 
 // returns the Node containing the predecessor of the given value
 IntBST::Node* IntBST::getPredecessorNode(int value) const{
+
+    if(contains(value)){
+        Node* result = root; 
+
+        while(result->info!=value ){
+            (result->info < value)? result = result->right : result = result->left;
+        }
+
+        return result;
+    }
     return NULL; // REPLACE THIS NON-SOLUTION
 }
 
 // returns the predecessor value of the given value or 0 if there is none
 int IntBST::getPredecessor(int value) const{
-    return 0; // REPLACE THIS NON-SOLUTION
+    
+    if(getPredecessorNode(value)){
+        
+        Node* p = getPredecessorNode(value);
+        Node* l = p;
+
+        if(l->left){    // check if it has left 
+            l = l->left;
+            while(l->right){   // find left largest
+                l = l->right;
+            }
+        }
+
+        if(p->parent){  // check if is has parent 
+            p = p->parent;
+            if(p->right == l) return p->info; // confirm it has no left and is a right child
+
+            while(p->parent && p->parent->left == p){ // go up with all left branches
+                p=p->parent;
+            }
+            
+            if(p->parent && p->parent->right == p) return p->parent->info;
+        }
+
+        return l->info;
+    }
+    return 0;
+     // REPLACE THIS NON-SOLUTION
 }
 
 // returns the Node containing the successor of the given value
@@ -188,11 +225,41 @@ IntBST::Node* IntBST::getSuccessorNode(int value) const{
 
 // returns the successor value of the given value or 0 if there is none
 int IntBST::getSuccessor(int value) const{
+    if(getPredecessorNode(value)){
+        
+        Node* p = getPredecessorNode(value);
+        Node* r = p;
+
+        if(r->right){    
+            r = r->right;
+            while(r->left){   
+                r = r->left;
+            }
+        }
+
+        if(p->parent){  // check if is has parent 
+            p = p->parent;
+            if(p->left == r) return p->info; 
+
+            while(p->parent && p->parent->right == p){ 
+                p=p->parent;
+            }
+            
+            if(p->parent && p->parent->left == p) return p->parent->info;
+        }
+
+        return r->info;
+    }
     return 0; // REPLACE THIS NON-SOLUTION
 }
 
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
+    if(contains(value)){
+
+
+
+    }
     return false; // REPLACE THIS NON-SOLUTION
 }

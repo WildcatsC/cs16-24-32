@@ -61,6 +61,13 @@ int main() {
             (bst1.contains(17) ? "Y" : "N") << endl;
         cout << "  contains 512? " <<
             (bst1.contains(512) ? "Y" : "N") << endl;
+        cout << "  contains 100000? " <<
+            (bst1.contains(1000) ? "Y" : "N") << endl;
+        cout << "  contains 0? " <<
+            (bst1.contains(0) ? "Y" : "N") << endl;
+        cout << "  contains -10? " <<
+            (bst1.contains(-10) ? "Y" : "N") << endl;
+
     }
     if(all || testnum == 6){
 	cout << "  predecessor of 64 is: " <<
@@ -69,13 +76,37 @@ int main() {
 	    bst1.getPredecessor(512) << endl;
 	cout << "  predecessor of 4 is: " <<
 	    bst1.getPredecessor(4) << endl;
+    cout << "  predecessor of 32 is: " <<
+	    bst1.getPredecessor(32) << endl;
+    cout << "  predecessor of 16 is: " <<
+	    bst1.getPredecessor(16) << endl;
+    cout << "  predecessor of 128 is: " <<
+	    bst1.getPredecessor(128) << endl;
+    cout << "  predecessor of 8 is: " <<
+	    bst1.getPredecessor(8) << endl;
+
+    cout << "  predecessor of 20 is: " <<
+	    bst1.getPredecessor(20) << endl;
+
+
 	cout << "  successor of 64 is: " <<
 	    bst1.getSuccessor(64) << endl;
 	cout << "  successor of 512 is: " <<
 	    bst1.getSuccessor(512) << endl;
 	cout << "  successor of 4 is: " <<
 	    bst1.getSuccessor(4) << endl;
+    cout << "  successor of 8 is: " <<
+	    bst1.getSuccessor(8) << endl;
+    cout << "  successor of 16 is: " <<
+	    bst1.getSuccessor(16) << endl;
+    cout << "  successor of 32 is: " <<
+	    bst1.getSuccessor(32) << endl;
+    cout << "  successor of 128 is: " <<
+	    bst1.getSuccessor(128) << endl;
+    cout << "  successor of 256 is: " <<
+	    bst1.getSuccessor(256) << endl;
     }
+    
     if(all || testnum == 7) {
 	cout << "  removing 4" << endl;
 	bst1.remove(4);
