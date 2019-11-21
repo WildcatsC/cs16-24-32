@@ -257,7 +257,7 @@ int IntBST::getSuccessor(int value) const{
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
     if(contains(value)){
-
+        
 
 
     }
