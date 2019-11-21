@@ -4,7 +4,7 @@
 /*
  
  ** 二叉树的一些实现  打印方法用 recursive 最方便   
-
+    最后三题有点意思 画图解决 精髓在于双向链接
 */
 
 #include "intbst.h"
@@ -200,7 +200,7 @@ int IntBST::getPredecessor(int value) const{
                 l = l->right;
             }
         }
-
+        // 发现规律：无论走left还是parent，都有对称性（root找left 或者 left找parent）**BST的特性**
         if(p->parent){  // check if is has parent 
             p = p->parent;
             if(p->right == l) return p->info; // confirm it has no left and is a right child
@@ -255,11 +255,66 @@ int IntBST::getSuccessor(int value) const{
 
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
+
+// 这题有点意思
 bool IntBST::remove(int value){
     if(contains(value)){
-        
+        Node* d = getPredecessorNode(value); // to be deleted 
+
+        // unified rule: 全部都是left branch顶上
+        if(d->parent){                                      // d is NOT root
+            if(d->parent->left == d){   // d is left branch
+                if(d->left){
+                    d->parent->left = d->left;
+                    if(d->right){
+                        Node* l1 = d->left;  // use l1 to find the rightest node on the left
+                        while(l1->right) l1 = l1->right;
+                        d->right->parent = l1;
+                        l1->right = d->right;
+                        l1->parent = d->parent;
+                        }
+                    }
+                if(d->right){ // if d has no left branch
+                    d->right->parent = d->parent;
+                    d->parent->left = d->right;
+                }
+            }
+            else{                       // d is right branch 
+                if(d->left){
+                    d->parent->right = d->left; 
+                    if(d->right){
+                        Node* l2 = d->left;  // l2 similar as l1
+                        while(l2->right) l2 = l2->right;
+                        d->right->parent = l2;
+                        l2->right = d->right;
+                        l2->parent = d->parent;
+                    }
+                }
+                if(d->right){ // if d has no left branch
+                    d->right->parent = d->parent;
+                    d->parent->right = d->right;
+                }
+            }
+        }
+        else{                                               // d is root 
+            if(d->left){        
+                Node* l = d->left;
+                while(l->right) l = l->right;
+                if(d->right){
+                    d->right->parent = l;
+                    l->right = d->right;
+                }
+                root = l;
+            }
+            else{
+                if(d->right) root = d->right;
+            }
 
 
+        }
+
+        if(d) delete d;
+        return true;
     }
     return false; // REPLACE THIS NON-SOLUTION
 }

@@ -114,6 +114,9 @@ int main() {
 	bst1.remove(64);
 	cout << "  removing 128" << endl;
 	bst1.remove(128);
+    cout << "  removing 512" << endl;
+	bst1.remove(512);
+    
 	cout << "  contains 64? " <<
             (bst1.contains(64) ? "Y" : "N") << endl;
 	cout << "  contains 4? " <<
@@ -126,6 +129,9 @@ int main() {
             (bst1.contains(17) ? "Y" : "N") << endl;
         cout << "  contains 512? " <<
             (bst1.contains(512) ? "Y" : "N") << endl;
+        cout << "  contains 256? " <<
+            (bst1.contains(256) ? "Y" : "N") << endl; 
+
 	cout << "  pre-order: ";
         bst1.printPreOrder();
         cout << endl;
