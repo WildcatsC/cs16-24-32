@@ -9,7 +9,7 @@
 #include <string>    // for throwing string exceptions
 using namespace std;
 
-// constants used to identify a token - DO NOT CHANGE
+// constants used to identify a token - DO NOT CHANGE  （🈶丶🕳⬅️）
 enum TokenType {LEFT, RIGHT, ADD, SUBTRACT, MULTIPLY,
                 DIVIDE, NUMBER, OTHER};
 TokenType identify(char *t);
@@ -26,7 +26,11 @@ bool balanced(char *expression[], int numTokens) {
                       // all of the same operations as the stack from
                       // Step 2 of this lab, but it won't get full
                       // and it can store any type - <char *> here
-
+    for(int i = 0; i<sizeof(expression); i++){
+        if(identify(expression[i])==LEFT) s.push("s");
+        if(identify(expression[i])==RIGHT) s.pop();
+        if(s.empty()) return true;
+    }
     return false; // REPLACE THIS return WITH ACTUAL IMPLEMENTATION
 }
 
@@ -37,7 +41,7 @@ TokenType identify(char *t) {
     if (strcmp(t, "(") == 0)
         return LEFT;
     if (strcmp(t, ")") == 0)
-        return RIGHT;
+        return RIGHT; 
     if (strcmp(t, "+") == 0)
         return ADD;
     if (strcmp(t, "-") == 0)

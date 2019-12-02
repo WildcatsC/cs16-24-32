@@ -14,7 +14,7 @@ T maximum(T a, T b)
         return b;
 }
 
-template <class DATA> // Data 是自己定义的？ 的确是
+template <class DATA> // Data 是自己定义的？ 的确是 （泛型而已
 class BSTNode
 {
 public:
