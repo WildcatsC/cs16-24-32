@@ -5,8 +5,14 @@
 #include <iostream>
 using namespace std;
 
-int main() {
+int profix(){
+    Stack numbers; 
+
+
+}
+int main(int argc, char* argv[]) {
     Stack s;
+    cout<<argv[1]<<endl; 
 
     s.push(10);
     s.push(20);
