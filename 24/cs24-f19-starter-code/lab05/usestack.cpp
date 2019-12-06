@@ -14,7 +14,7 @@ int profix(){   //   profix algorithm
 int main(int argc, char* argv[]){   // 遗漏小知识点  char** argv and char* argv[]
     Stack s;
 
-    cout<< argv[0] <<endl; 
+    cout<< (int)argv[0] <<endl; 
 
     s.push(10);
     s.push(20);
