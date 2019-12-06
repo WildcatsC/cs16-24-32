@@ -5,14 +5,16 @@
 #include <iostream>
 using namespace std;
 
-int profix(){
+int profix(){   //   profix algorithm
     Stack numbers; 
-
-
+    
+    return 0; 
 }
-int main(int argc, char* argv[]) {
+
+int main(int argc, char* argv[]){   // 遗漏小知识点  char** argv and char* argv[]
     Stack s;
-    cout<<argv[1]<<endl; 
+
+    cout<< argv[0] <<endl; 
 
     s.push(10);
     s.push(20);
@@ -21,6 +23,8 @@ int main(int argc, char* argv[]) {
         cout << s.top() << endl;
         s.pop();
     }
+
+    cout << " == == == " << endl;
 
     return 0;
 }
