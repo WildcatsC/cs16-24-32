@@ -7,11 +7,11 @@ using namespace std;
 
 int profix(){   //   profix algorithm
     Stack numbers; 
-    
+   	 
     return 0; 
 }
 
-int main(int argc, char* argv[]){   // 遗漏小知识点  char** argv and char* argv[]
+int main(int argc, char* argv[]){   // 遗漏小知识点  char** argv and char* argv[] 是一样的效果？
     Stack s;
     
     s.push(10);
