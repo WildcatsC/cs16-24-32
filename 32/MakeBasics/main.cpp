@@ -1,5 +1,3 @@
-// about make file: 
-// 		default make: (c++ at front) -o
 #include <iostream>
 using namespace std;
 
