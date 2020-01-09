@@ -6,7 +6,7 @@ first three of UCSB
 
 * cs24: basic data structures and alg w/ cpp
 
-* cs32: 
+* cs32: more data structures and unix/oop ideas
 
 *** 
 
