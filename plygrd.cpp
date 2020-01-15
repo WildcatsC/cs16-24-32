@@ -23,5 +23,4 @@ int main(){
 	L k(100);
 	cout << k.k << endl;
 	return 0;
-
 }
