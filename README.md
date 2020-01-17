@@ -10,7 +10,6 @@ first three of UCSB
 
 *** 
 
-from dt strcs and oth objects c++:
 
 	* use assert() (#include <cassert0>) to check the function's precondition to avoid error
 	
