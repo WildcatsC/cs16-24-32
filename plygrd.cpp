@@ -38,8 +38,15 @@ int main() {
 	// L *l;
 	// l = new L;
 	// l->func2();
+<<<<<<< HEAD
 //	L k(100);
 //	cout << k.k << endl;
 //	return 0;
 
 //}
+=======
+	L k(100);
+	cout << k.k << endl;
+	return 0;
+}
+>>>>>>> 42e3e37c31a6407b0dc4a686f81d05b3d0e0b135
