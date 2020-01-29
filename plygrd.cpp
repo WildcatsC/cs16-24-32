@@ -44,16 +44,12 @@ int main() {
     cout << "&z.c = " << reinterpret_cast<void*>(&z.c) << endl; // 0x7ffee07c1708
     cout << "&z.d = " << &z.d << endl;                          // 0x7ffee07c1710
 
-//int main(){
-	// L *l;
-	// l = new L;
-	// l->func2();
-//	L k(100);
-//	cout << k.k << endl;
-//	return 0;
+  	cout << "=====" << endl;
 
-//}
-	L k(100,10000);
-	cout << "====" << endl;
+	int* a;
+	a = new int[100];
+	for(int i = 0; i<4; i++) a[i]=i;
+	cout << a[0]<<a[1]<<a[2]<<a[3] << endl;
+	cout << (a+1)[2] << endl;
 	return 0;
 }
