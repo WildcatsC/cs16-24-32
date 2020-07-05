@@ -1,0 +1,4 @@
+Name: Yanming Chen; 
+UID: 605553827;
+
+1. One main issue is the order of printing errors when receiving more than one input errors. I start from the bottom with the basic formula to taking into acount different status inputs. I wanted to avoid writing many conditions in main(). But the condition of status input is differnt than the numerical 

@@ -2,14 +2,15 @@
 #include <string>
 using namespace std;
 
-
-int formula(int limit, int payment, double inc, int child){
+// The basic formula to calculate the value
+int formula(int limit, int payment, double inc, int child){    
    int res = 0;
    res = payment - (inc - limit)/100*5 + child*500;
    if(res < 0) return 0;
    return res; 
 }
 
+// The calculator to compute the check value in terms of status
 int calculator(string status, int income, int children){
 
     if(status == "Single"){
@@ -25,9 +26,10 @@ int calculator(string status, int income, int children){
         return formula(112500, 1200, income, children);
     }
 
-    return -1; 
+    return -1;  // all other inputs of status returns -1, will be used in main().
 }
 
+// Check inputs errors in main().
 int main(){
     string status;
     double income;
@@ -36,7 +38,7 @@ int main(){
 
     cout << "What is your filing status?";
     cin >> status;
-    result = calculator(status, 0, 0);
+    result = calculator(status, 0, 0); // check if the status input is valid 
     if(result < 0){
         cout << "Error - Invalid filing status." << endl;
         return 0;
@@ -55,7 +57,7 @@ int main(){
         cout << "Error - Invalid number of dependents." << endl;
         return 0;
     }
-
+    
     result = calculator(status, income, children);
     if(result >=0) printf("Your stimulus check is $%d\n", result); 
 
