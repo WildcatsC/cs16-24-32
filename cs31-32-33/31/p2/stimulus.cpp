@@ -25,7 +25,7 @@ int calculator(string status, int income, int children){
         if(income <= 112500) return 1200 + children*500;
         return formula(112500, 1200, income, children);
     }
-
+    cout << status << endl;
     return -1;  // all other inputs of status returns -1, will be used in main().
 }
 
@@ -37,7 +37,7 @@ int main(){
     int result;
 
     cout << "What is your filing status?";
-    cin >> status;
+    getline(cin, status);
     result = calculator(status, 0, 0); // check if the status input is valid 
     if(result < 0){
         cout << "Error - Invalid filing status." << endl;
@@ -57,7 +57,7 @@ int main(){
         cout << "Error - Invalid number of dependents." << endl;
         return 0;
     }
-    
+
     result = calculator(status, income, children);
     if(result >=0) printf("Your stimulus check is $%d\n", result); 
 

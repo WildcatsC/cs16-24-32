@@ -1,4 +1,15 @@
 Name: Yanming Chen; 
 UID: 605553827;
 
-1. One main issue is the order of printing errors when receiving more than one input errors. I start from the bottom with the basic formula to taking into acount different status inputs. I wanted to avoid writing many conditions in main(). But the condition of status input is differnt than the numerical 
+1.
+A major issue I encounter is how to modularize my code. I do not want to write everything with many condition statements in main(). But I also try to avoid making every little step into a seperate function. The right number of helper functions is what I need to think about and to keep learning.
+
+2.
+The threshold values: (Single, 98999, 0), (Single, 98900, 0), (Single, 75100, 0), (Head of Household, 200000, 7), (Married, 197900, 0), (Single, 0, 0) 
+Unresonable inputs: (Married, 10000000, 999999999), (Married, 0, 999999)
+Error status: (1, 900, 0), (single, 900, 0), (m, 200000, 0)
+Error income: (Single, -1, 20), (Married, -100, 100)
+Error children: (Single, 0, -10)
+Multiple errors: (S, -1, -100), (Singel, -100, 2), (Head of Household, -1900, -20)
+
+
