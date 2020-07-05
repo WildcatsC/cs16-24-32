@@ -5,7 +5,7 @@ UID: 605553827;
 A major issue I encounter is how to modularize my code. I do not want to write everything with many condition statements in main(). But I also try to avoid making every little step into a seperate function. The right number of helper functions is what I need to think about and to keep learning.
 
 2.
-The threshold values: (Single, 98999, 0), (Single, 98900, 0), (Single, 75100, 0), (Head of Household, 200000, 7), (Married, 197900, 0), (Single, 0, 0) 
+Threshold values: (Single, 98999, 0), (Single, 98900, 0), (Single, 75100, 0), (Head of Household, 200000, 7), (Married, 197900, 0), (Single, 0, 0) 
 Unresonable inputs: (Married, 10000000, 999999999), (Married, 0, 999999)
 Error status: (1, 900, 0), (single, 900, 0), (m, 200000, 0)
 Error income: (Single, -1, 20), (Married, -100, 100)
