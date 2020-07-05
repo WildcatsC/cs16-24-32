@@ -1,0 +1,61 @@
+1. 
+endlendl
+endline%
+
+2. 
+A big slah formed with "#"s, starting from right to left.
+
+3. 
+int main(){
+	int len;
+
+	cout << "Enter a number: ";
+	cin >> len;
+    
+	for (int i = 0; i < len; i++){
+		int j = i+1;
+		while(j < len){
+			cout << " ";
+			j++;
+		}
+		    cout << "#" << endl;
+	}
+	return 0;
+}
+
+4. 
+int main(){
+	int len;
+
+	cout << "Enter a number: ";
+	cin >> len;
+
+	if(len<0) return 0;
+
+	int i = 0;
+	do{	
+		int j = i+1;
+		while(j < len){
+			cout << " ";
+			j++;
+		}
+		    cout << "#" << endl;
+			i++;
+	}while(i<len);
+
+	return 0;
+}
+
+5. 
+switch(weekday){
+		case 1: cout << "rainy days and mondays get me down";
+				break;
+		case 2: cout << "ruby tuesday";
+				break;
+		case 6: cout << "wonderful weekend";
+				break;
+		case 7: cout << "wonderful weekend";
+				break;	
+		default: cout << "regular day";
+				break;
+}
