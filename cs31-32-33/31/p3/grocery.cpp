@@ -20,13 +20,11 @@ bool isWellFormedGroceryOrderString(string grocerystring){
     }
     
     for(size_t k=0; k<s.size(); k++){
-        // cout << "current sk: " << s[k] << endl;
         if(!(s[k]=='p' || s[k]=='d' || s[k]=='s' || s[k]== 'i') && ctoi(s[k]) == -1){
             return false;
         }
 
         if(s[k]=='p' || s[k]=='d' || s[k]=='s' || s[k]== 'i'){
-            // cout << "reached here before pd" << endl;
             if(k == 0) return false;  // cannot be letter only 
             if(k>=1 && ctoi(s[k-1])==-1) return false; // has to follow a digit
             if(k>=2 && ctoi(s[k-2])==-1 && ctoi(s[k-1])==0) return false; // cannot be 0
@@ -36,26 +34,22 @@ bool isWellFormedGroceryOrderString(string grocerystring){
             // cases of pickup or delivery 
             if(s[k]=='p'){
                 pickup += ctoi(s[k-1]);
-                // cout << "reached pickup" << endl;  
                 if(k>=2 && ctoi(s[k-2])==0) return false;  // cannot begin with 0
                 if(k>=2 && ctoi(s[k-2])!=-1) pickup += ctoi(s[k-2])*10;
             }
             else if(s[k]=='d'){
                 delivery += ctoi(s[k-1]);  
-                // cout << "reached deliv" << endl;
                 if(k>=2 && ctoi(s[k-2])==0) return false;   // cannot begin with 0
                 if(k>=2 && ctoi(s[k-2])!=-1) delivery += ctoi(s[k-2])*10;
             }
             
             // general cases (including pickup and delivery)
             total += ctoi(s[k-1]);
-            // cout << "reached total" << endl;
             if(k>=2 && ctoi(s[k-2])==0) return false;
             if(k>=2 && ctoi(s[k-2])!=-1) total += ctoi(s[k-2])*10;
         }
         
     }
-    // cout << "reach end" << endl;
     if(total!=0 && total < 100 && pickup < 21 && delivery < 11) return true;
     return false;
 

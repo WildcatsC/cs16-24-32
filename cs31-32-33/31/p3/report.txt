@@ -1,4 +1,44 @@
 Name: Yanming Chen;
 ID: 605553827;
 
-1. The logic of the  program is one major obstacle 
+1. The logic of the program is one major obstacle. When writing the major function isWellFormedGroceryOrderString(), I have to deal with many different situations and combinations of numbers and letters. There are many if-else conditions to be clearly set up. 
+
+2.isWellFormedGroceryOrderString() is the main part of my program. The other 4 functions reuse this function and I use some similar methods when counting the letters. The idea of this major function is as follow: 
+	
+	for chars in string:
+		if char == any letter other than p,d,s,i: 
+			return false; 
+		if char == p,d,s,i:
+			(check conditions that should return false)
+			if char is the first in the string: return false;
+			if char is following 0 and nothing before 0: return false
+			if char is following non-0 and a 0 before the non-0: return false;
+			if char is following more than 2 digits in a row: return false; 
+			
+			(count delivery and pickup)
+			if char == p: 
+				p+=the digit before char;
+				if non-0 digit before the digit above:
+					p+=10*this digit;
+			
+			if char == d:
+				(similar to p)
+
+			(under the if-statement of char == p,d,s,i)
+			total count+=digit before char;
+			if non-0 digit before the digit above:
+				total count+=10*this digit;
+			
+	(after the iteration)
+	(check conditions)
+	if conditions are satisfied: return true;
+	else: return false;
+
+The other 4 functions use similar counting method as stated above. 
+
+3. Test cases:
+ "1d100s","2d20j","19d20s2p2p2p2p2p2p2p", "2p2p2pp2p2p2p" (exceeds the limit)
+ "p3", "3p3l", "-1i", " 9p", "si", "happyDays10", "000001p", "+1p", "1p1d   XYZ" (wrong format)
+"    ", "1s1d1i1p1S1D1I1P " (empty or include space)
+"1s1d1i1p1S1D1I1P", "1d2d19p1p2d2d2d", "2i3i4i5i1i" (right format and long input)
+"19p", "1d", "10d",(simple imput)
