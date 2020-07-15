@@ -2,6 +2,7 @@
 #include <cassert>
 using namespace std;
 
+// helper: using ascii to convert char to int
 int ctoi(char c){
     int r = (int)c - 48;
     if(r >= 0 && r <= 9) return r;
