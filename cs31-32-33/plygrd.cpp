@@ -27,10 +27,10 @@ void val(int a){
 
 
 int main(){
-	int i= 0;
-	val(i);
-	cout << "now i: " << i << endl;
-	ref(i);	
-	cout << "final i: " << i << endl;
-return 0;
+	int i = 12, j = 10, k = 0;
+	k = i++ * --j;
+	cout << k << endl;
+	k = --i + ++j;
+	cout << k << endl;	
+	return 0;
 }
