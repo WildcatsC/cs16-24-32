@@ -30,3 +30,10 @@ Midterm Notes:
 	4. <cassert>  assert(); Add "#define" line before #include line: Turns OFF all assertions throughout program 
 	5. <cstdlib> exit();
 	6. PostFixand Prefix ++, -- Operators **precedence rules** 
+	7. An enumeration is a distinct type: include several explicitly named constants ("enumerators")
+	8. returning more than one value from your function, you’ll need to use reference parameters 来直接改动原来的ref
+	9. array[size] 以后，如果中间有被赋值的，那其他没赋值的都变成0
+	10. array[]的话必须要有{}来直接initialize
+	11. array as parameter Very Similar To “Pass By Reference”: address of array[0] is passed
+	12. C++ allows any number of indexes (dimensions)
+	
