@@ -136,6 +136,12 @@ int inpersonCount(string grocerystring){
     return inperson; 
 }
 
+int totalOrders(string grocerystring){
+    if(!isWellFormedGroceryOrderString(grocerystring)) return -1; 
+    int total = 0;
+    total = pickupCount(grocerystring) + deliveryCount(grocerystring) + shipCount(grocerystring) + inpersonCount(grocerystring); 
+    return total;
+}
 
 
 
