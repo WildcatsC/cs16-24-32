@@ -26,11 +26,32 @@ void val(int a){
 }
 
 
-int main(){
-	int i = 12, j = 10, k = 0;
-	k = i++ * --j;
-	cout << k << endl;
-	k = --i + ++j;
-	cout << k << endl;	
-	return 0;
+void foo( int a, string d = "" );
+void foo( int a);
+void foo( double a);
+
+int main(int argc, const char * argv[]) {
+    
+    int x[] = {1};
+    //double r = (double)1/x;
+    int r[] = {2};
+    int a = 1;
+    int b = 1.5;
+    int* p;
+    p = r;
+    //cout << *p << endl;
+    foo(b);
+    
+}
+
+void foo(int a, string d){
+    cout << 1;
+}
+
+void foo(int a){
+    cout << 2;
+}
+
+void foo(double a){
+    cout  << 3;
 }
