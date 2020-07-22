@@ -32,16 +32,7 @@ void foo( double a);
 
 int main(int argc, const char * argv[]) {
     
-    int x[] = {1};
-    //double r = (double)1/x;
-    int r[] = {2};
-    int a = 1;
-    int b = 1.5;
-    int* p;
-    p = r;
-    //cout << *p << endl;
-    foo(b);
-    
+    for(int i = 0; i<0; i++) cout << "never" << endl;   
 }
 
 void foo(int a, string d){
