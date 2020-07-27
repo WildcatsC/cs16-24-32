@@ -50,6 +50,14 @@ int main(int argc, const char * argv[]) {
 	cout << b2  << endl;
 	cout << c1 << endl;
 	cout << c2 << endl;
+	
+	cout << "========" << endl;
+
+	char cha = 'X';
+	int k = static_cast<int> (cha);
+		cout << k  << endl;
+	char back = static_cast<char> (k);
+		cout << back << endl;
 }
 
 void foo(int a, string d){
