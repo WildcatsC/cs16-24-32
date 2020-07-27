@@ -31,8 +31,25 @@ void foo( int a);
 void foo( double a);
 
 int main(int argc, const char * argv[]) {
-    
-    for(int i = 0; i<0; i++) cout << "never" << endl;   
+	cout.setf(ios::boolalpha);
+	string s1 = "ABC";
+	string s2 = "abc";
+	string s3 = "bcd";
+	bool b = s1<s2;
+	bool c = s2>s3;
+	char a1 = '1';
+	char a2 = '2';
+	cout << "ABC < abc: " << b << endl;
+	cout << "abc < bcd: " << c << endl;
+	int b1 = (int) a1;
+	int b2 = (int) a2;
+	int c1 = static_cast<int> (a1);
+	int c2 = static_cast<int> (a2);
+	cout << "here: " << endl;
+	cout << b1  << endl;
+	cout << b2  << endl;
+	cout << c1 << endl;
+	cout << c2 << endl;
 }
 
 void foo(int a, string d){
