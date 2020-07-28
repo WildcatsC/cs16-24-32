@@ -58,6 +58,9 @@ int main(int argc, const char * argv[]) {
 		cout << k  << endl;
 	char back = static_cast<char> (k);
 		cout << back << endl;
+	string x = "bbab";
+	string y = "";
+	cout << (x<y) << endl;
 }
 
 void foo(int a, string d){
