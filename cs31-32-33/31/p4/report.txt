@@ -1,4 +1,13 @@
 Name: Yanming Chen;
 ID: 605553827;
 
+1. 
+The major obstacle I overcame is the algorithm of highestOccurredCharacter and firstNonRepeatedCharacter. I finally decided to use a array initialized with all zeros to act as a map. The ascii values of the letters occur in a string are the keys, and occurrences are the values. This method helped me get rid of the nested for loops which I tried at first. 
 
+2. 
+Regular dataset: {"abc!", "abcdcdcadcc", "abc!", "aabbccddeee", "abcdingabcd", "abcdxyz","cba","!cba"};
+Digit only: {"12345", "54321", "1"};
+Regular dataset in the spec: {"samwell", "jon", "margaery", "daenerys", "tyrion", "sansa", "llewmas", "noj"};
+Not strictly increasing dataset containing empty string: {"", "aaaa", "aaaa", "baaa", "bbab", "c", "zxxx.?(),,"};
+Only empty strings: {"", ""};
+Only puncuation: {"..."}; 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <string>
 using namespace std;
 
 int locateMinimum( const string array[], int n );
@@ -24,6 +25,7 @@ string rev(string s){
 
 
 
+// =========================================================================================================
 // MAIN  
 int main(){
     cout.setf(ios::boolalpha);
@@ -36,6 +38,7 @@ int main(){
     string arr4[5] = {"jon", "mamabbcc!", "samwell,", "daenerys.", "tyrion"};
     string arr5[50] = {"", "aaaa", "aaaa", "baaa", "bbab", "c", "zxxx.?(),,"};
     string arr6[20] = {"", ""};
+    string arr7[1] = {"..\""};
 
 
     assert(locateMinimum(arr1, 8) == 7);
@@ -44,12 +47,17 @@ int main(){
     assert(locateMinimum(arr2, 3) == 2);
     assert(locateMinimum(arr5, 7) == 0);
     assert(locateMinimum(arr6, 2) == 0);
+    assert(locateMinimum(arr6, 0) == -1);
+    assert(locateMinimum(arr7, 1) == 0);
+    assert(locateMinimum(arr7, 0) == -1);
 
     assert(countPunctuation(arr1, 8) == 3);
     assert(countPunctuation(arr4, 5) == 3);
     assert(countPunctuation(arr4, 1) == 0);
     assert(countPunctuation(arr2, 3) == 0);
     assert(countPunctuation(arr5, 7) == 6);
+    assert(countPunctuation(arr3, 0) == -1);
+    assert(countPunctuation(arr7, 1) == 3);
     
     assert(hasReverse(arr1, 8) == true);
     assert(hasReverse(arr3, 5) == false);
@@ -57,7 +65,9 @@ int main(){
     assert(hasReverse(arr5, 1) == false);
     assert(hasReverse(arr5, 7) == true);
     assert(hasReverse(arr6, 2) == true);
-
+    assert(hasReverse(arr6, -1) == false);
+    assert(hasReverse(arr6, 1) == false);
+    assert(hasReverse(arr7, 1) == false);
 
     assert(highestOccurredCharacter(arr1, 8, 3) == 'e');
     assert(highestOccurredCharacter(arr1, 8, 4) == 'a');
@@ -66,12 +76,17 @@ int main(){
     assert(highestOccurredCharacter(arr4, 5, 1) == 'a');
     assert(highestOccurredCharacter(arr5, 7, 6) == 'x');
     assert(highestOccurredCharacter(arr5, 7, 0) == '\0');
+    assert(highestOccurredCharacter(arr5, 0, 1) == '\0');
+    assert(highestOccurredCharacter(arr7, 1, 0) == '.');
 
     assert(isInIncreasingOrder(arr1, 3) == false);
     assert(isInIncreasingOrder(arr4, 5) == false);
     assert(isInIncreasingOrder(arr4, 3) == true);
     assert(isInIncreasingOrder(arr5, 2) == true);
     assert(isInIncreasingOrder(arr6, 2) == false);
+    assert(isInIncreasingOrder(arr6, -1) == false);
+    assert(isInIncreasingOrder(arr6, 1) == true);
+    assert(isInIncreasingOrder(arr7, 1) == true);
 
     assert(firstNonRepeatedCharacter(arr4, 5, 1) == '!');
     assert(firstNonRepeatedCharacter(arr4, 5, 0) == 'j');
@@ -80,18 +95,26 @@ int main(){
     assert(firstNonRepeatedCharacter(arr3, 8, 6) == 'e');
     assert(firstNonRepeatedCharacter(arr5, 7, 0) == '\0'); 
     assert(firstNonRepeatedCharacter(arr5, 7, 6) == 'z');
+    assert(firstNonRepeatedCharacter(arr5, 0, 0) == '\0');
+    assert(firstNonRepeatedCharacter(arr7, 1, 0) == '\"');
 
     assert(isOnlyDigits(arr2, 3) == true);
     assert(isOnlyDigits(arr4, 5) == false);
     assert(isOnlyDigits(arr1, 10) == false);
     assert(isOnlyDigits(arr5, 7) == false);
     assert(isOnlyDigits(arr6, 2) == false);
+    assert(isOnlyDigits(arr2, 0) == false);
+    assert(isOnlyDigits(arr7, 1) == false);
 
     cout << "yes sir" << endl;
     return 0;
 }
 
 
+
+
+
+// =========================================================================================================
 // Declarations
 
 int locateMinimum(const string array[], int n){
@@ -111,7 +134,7 @@ int countPunctuation(const string array[], int n){
     for(size_t i = 0; i < n; i++){
         for(size_t j = 0; j < array[i].size(); j++){
             char c = array[i][j];
-            if(c==',' || c=='.' || c=='-' || c==';' || c=='?' || c=='!' || c==':' || c=='"' || c=='(' || c==')')
+            if(c==',' || c=='.' || c=='-' || c==';' || c=='?' || c=='!' || c==':' || c=='\"' || c=='(' || c==')')
             count++;
         }
     }
