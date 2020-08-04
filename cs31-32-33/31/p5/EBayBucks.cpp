@@ -2,18 +2,21 @@
 #include "EBayBucks.h"
 using namespace std;
 
-EbayBucks::EbayBucks(){
-
+EBayBucks::EBayBucks(){
+    earnedAward = 0;
 }
 
-void EbayBucks::addAuction(Auction a){
-
+void EBayBucks::addAuction(Auction a){
+    if(a.winningBid()!=-1)
+        earnedAward+=0.01*a.winningBid();
 }
 
-double EbayBucks::earnings() const{
-    return 0;
+double EBayBucks::earnings() const{
+    return earnedAward;
 }
 
-double EbayBucks::issueCertificate(){
-    return 0;
+double EBayBucks::issueCertificate(){
+    double issued = earnedAward;
+    earnedAward = 0;
+    return issued;
 }

@@ -4,13 +4,13 @@
 #include <string>
 #include "Auction.h"
 
-class EbayBucks
+class EBayBucks
 {
     private:
     double earnedAward;
 
     public:
-    EbayBucks();
+    EBayBucks();
     void addAuction(Auction a);
     double earnings() const;
     double issueCertificate();
