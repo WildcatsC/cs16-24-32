@@ -7,7 +7,7 @@ EBayBucks::EBayBucks(){
 }
 
 void EBayBucks::addAuction(Auction a){
-    if(a.winningBid()!=-1)
+    if(a.wasSuccessful() == true && a.winningBid()!=-1)
         earnedAward+=0.01*a.winningBid();
 }
 

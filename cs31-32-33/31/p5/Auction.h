@@ -20,7 +20,6 @@ class Auction{
     bool wasSuccessful() const;
     double winningBid() const;
     std::string getDescription() const;
-
 };
 
 #endif

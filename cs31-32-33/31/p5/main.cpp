@@ -2,14 +2,44 @@
 #include "EBayBucks.h"
 #include <iostream>
 #include <cassert>
+#include <string>
 using namespace std;
 
 int main(){
     cout << "start testing now" << endl;
                // sample test code 
 
-    Auction auction( "4th Generation iPod", 50.00 );
+    Auction* auc;
+    auc = new Auction("2th Generation iPad Pro", 50.00);
+    //Auction auction( "4th Generation iPod", 50.00 );
+
     EBayBucks bucks;
+
+    auc->openAuction();
+    auc->closeAuction();
+    assert(auc->winningBid()== -1.0);
+
+    auc->openAuction();
+    assert(auc->bid(-1) == false);
+    assert(auc->bid(0) == false);
+    assert(auc->bid(5) == true);
+    assert(auc->bid(1000000) == true);
+    assert(auc->numberOfBids() == 2);
+    assert(auc->bid(1000000.0) == false);
+    assert(auc->numberOfBids() == 2);
+    assert(auc->wasSuccessful() == false);
+    assert(auc->winningBid() == -1);
+    auc->closeAuction();
+    assert(auc->wasSuccessful() == true);
+    assert(auc->winningBid() == 1000000.0);
+    assert(bucks.earnings() == 0);
+    assert(bucks.issueCertificate() == 0);
+    assert(bucks.issueCertificate() == 0);
+    assert(bucks.earnings() == 0);
+
+    delete auc;
+
+    Auction auction( "4th Generation iPod", 50.00 );
 
            assert( auction.numberOfBids( ) == 0 );
            assert( auction.wasSuccessful( ) == false );
@@ -59,7 +89,7 @@ int main(){
            // once a certificate is issued, the earned award gets reset to zero
            assert( std::to_string( bucks.earnings( ) ) == "0.000000" );
 
-           Auction a( "unsuccessful", 10000.00 );
+           Auction a( "unsuccessful auction", 10000.00 );
            a.openAuction( );
            assert( a.bid( 100.00 ) == true );
            a.closeAuction( );
@@ -68,9 +98,7 @@ int main(){
            // unsuccessful auctions don't raise the earned award
            bucks.addAuction( a );
            assert( std::to_string( bucks.earnings( ) ) == "0.000000" );
+        cout << "all tests passed!" << endl;
 
-           cout << "all tests passed!" << endl;
-
-           return 0;
     return 0;
 }

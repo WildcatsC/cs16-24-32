@@ -1,0 +1,53 @@
+Name: Yanming Chen;
+ID: 605553827
+
+1. 
+The obstacle I encountered was the compiling problem. I insisted to use g++ and Vim. I spent some time to figure out the Makefile of all the source files. With Makefile, things are much easier and cleaner. And the following process was a lot smoother.
+
+2. 
+		(auc is a Auction pointer)	
+	no bid:
+		auc->openAuction();
+    	auc->closeAuction();
+    	       assert(auc->winningBid()== -1.0);
+		
+	regular bid:
+           Auction auction( "4th Generation iPod", 50.00 );
+	not opened:
+	    assert( auction.numberOfBids( ) == 0 );
+           assert( auction.wasSuccessful( ) == false );
+           assert( auction.getDescription( ) == "4th Generation iPod" );
+           assert( std::to_string( auction.winningBid( ) ) == "-1.000000" );
+	opened: 
+		           auction.openAuction( );
+
+           // an auction is not successful if the bids are too low...
+           assert( auction.bid( -50.00 ) == false );   // negative bids are ignored
+           assert( auction.bid( 1.00 ) == true );
+           assert( auction.bid( 2.00 ) == true );
+           assert( auction.bid( 3.00 ) == true );
+           assert( auction.bid( 1.50 ) == false );     // bids lower than the currentBid value are ignored
+           assert( auction.numberOfBids( ) == 3 );
+           assert( auction.wasSuccessful( ) == false );
+           assert( std::to_string( auction.winningBid( ) ) == "-1.000000" );		
+
+	    auc->openAuction();
+    assert(auc->bid(-1) == false);
+    assert(auc->bid(0) == false);
+    assert(auc->bid(5) == true);
+    assert(auc->bid(1000000) == true);
+    assert(auc->numberOfBids() == 2);
+    assert(auc->bid(1000000.0) == false);
+    assert(auc->numberOfBids() == 2);
+    assert(auc->wasSuccessful() == false);
+    assert(auc->winningBid() == -1);
+    auc->closeAuction();
+    assert(auc->wasSuccessful() == true);
+    assert(auc->winningBid() == 1000000.0);
+    assert(bucks.earnings() == 0);
+    assert(bucks.issueCertificate() == 0);
+    assert(bucks.issueCertificate() == 0);
+    assert(bucks.earnings() == 0);
+
+
+

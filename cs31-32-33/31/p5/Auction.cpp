@@ -42,11 +42,10 @@ bool Auction::wasSuccessful() const{
 double Auction::winningBid() const{
     if(this->wasSuccessful()==true)
         return mCurrentBid;
-    return -1;
+    return -1.0;
 }
 
 string Auction::getDescription() const{
     return mDescription;
 }
-
 
