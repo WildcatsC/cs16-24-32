@@ -64,7 +64,10 @@ int main(){
            assert( auction.bid( 1.50 ) == false );     // bids lower than the currentBid value are ignored
            assert( auction.numberOfBids( ) == 3 );
            assert( auction.wasSuccessful( ) == false );
-           assert( std::to_string( auction.winningBid( ) ) == "-1.000000" );
+        //    assert( std::to_string( auction.winningBid( ) ) == "-1.000000" );
+        cout << std::to_string(auction.winningBid()) << endl;
+        cout << auction.winningBid() << endl;
+        assert(auction.winningBid() == -1);
 
            // an auction must be closed to be deemed successful
            assert( auction.bid( 100.00 ) == true );
@@ -98,6 +101,31 @@ int main(){
            // unsuccessful auctions don't raise the earned award
            bucks.addAuction( a );
            assert( std::to_string( bucks.earnings( ) ) == "0.000000" );
+
+    Auction bike( "10 speed bicycle", 50.00 );
+bike.openAuction();
+bike.bid( 100.00 );
+bike.closeAuction();  // successful auction
+
+Auction ipod( "Apple iPod", 50.00 );
+ipod.openAuction();
+ipod.closeAuction();  // unsuccessful auction
+
+Auction printer( "HP Laserjet 500xl", 159.00 );
+printer.openAuction();
+printer.bid( 100.00 );
+printer.bid( 125.00 );
+printer.closeAuction();   // unsuccessful auction
+
+// your coding problem is here...
+assert( bike.allSold( bike, ipod, printer ) == false );
+assert( bike.allSold( ipod, printer, ipod ) == false );
+assert( bike.allSold( bike, bike, bike ) == true );
+
+int k = 120;
+double b = 120.0;
+cout << "a: " << std::to_string(k) << endl;
+cout << "b: " << std::to_string(b) << endl;
         cout << "all tests passed!" << endl;
 
     return 0;

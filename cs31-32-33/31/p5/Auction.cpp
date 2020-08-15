@@ -49,3 +49,27 @@ string Auction::getDescription() const{
     return mDescription;
 }
 
+bool Auction::allSold(Auction a, Auction b, Auction c){
+    bool name = false;
+    bool price = false;
+    bool success = false;
+
+    if(a.getDescription() == b.getDescription()){
+        if(b.getDescription() == c.getDescription())
+            name = true;
+    }
+    if(a.winningBid() == b.winningBid()){
+        if(b.winningBid() == c.winningBid())
+            price = true;
+    }
+    if(a.wasSuccessful() == b.wasSuccessful()){
+        if(b.wasSuccessful() == c.wasSuccessful())
+            success = true;
+    }
+    
+    if(name && price && success)
+        return true;
+
+    return false;
+}
+

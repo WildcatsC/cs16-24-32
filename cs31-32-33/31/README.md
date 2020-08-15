@@ -37,3 +37,6 @@ Midterm Notes:
 	11. array as parameter Very Similar To “Pass By Reference”: address of array[0] is passed
 	12. C++ allows any number of indexes (dimensions)
 	
+
+##L5##
+

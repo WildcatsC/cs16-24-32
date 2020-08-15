@@ -1,0 +1,38 @@
+Name: Yanming Chen;
+ID: 605553827;
+
+1. The major obstacle I encountered was about a common sense in gambling. When I played the slotmachine on that free website, I found out that my wager is like a fee for spinning the wheel. The amount I actually won should be calculated by the amount displayed on the machine minus the fee I payed. However, in project 6, it seems if I win a round, my wager is returned. That is to say, what I actually won is the amount determined by the winning rate. I would not have to pay a fee to spin the machine if I win a round. This is also verified on Codeboard. I think about this for a long time at first. But I believe Codeboard's cases are efficient enough to support the second rule. 
+
+2. Testing the Bank class: (The function win() and balance() are essential)            
+		   Bank b;
+           assert( b.balance() == 0 );
+           assert( b.getWager() == 0 );
+           assert( !b.canWager( 100 ) );
+           b.deposit( 50 );
+           assert( b.balance() == 50 );
+           assert( !b.canWager( 100 ) );
+           assert( b.canWager( 50 ) );
+           b.deposit( 50 );
+
+           b.deposit(100);
+           assert(b.balance() == 200);
+           b.win(100);
+           assert(b.cashOut() == 300);
+           b.deposit(100);           
+Testing PayTable:(Also the function manageWager(). Should be considered together with Bank class.)
+		   PayTable p( 'A', 'A', 'A' );
+           PayTable::Multiplier m = p.calculateMultiplier( );  // 3 Aces is a 10-1 winner
+           assert( m == PayTable::Multiplier::TENTIME );
+           PayTable p1('1', '2', '3');
+           PayTable::Multiplier m1 = p.calculateMultiplier( ); 
+           assert( m1 = PayTable::Multiplier::ZERO);
+Testing SlotMachine: (Different constructors)
+	SlotMachine s1( "ABCDEFG" );
+	s1.noDisplay();
+	b1.setWager( 10.00 );
+	s1.play( b1, 'A', 'B', 'C' );
+           SlotMachine sl( "AKQJ987" );   // cheating...
+           b.setWager( 100 );
+           s.play( b, 'A', 'A', 'A' );
+           assert( b.balance( ) == 1100 );       
+

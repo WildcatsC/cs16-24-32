@@ -1,10 +1,10 @@
-all: Auction.cpp EBayBucks.cpp Test.cpp
+all: Auction.cpp EBayBucks.cpp main.cpp
 	g++ -c Auction.cpp
 	g++ -c EBayBucks.cpp
-	g++ -c Test.cpp
+	g++ -c main.cpp
 
-test: Auction.o EBayBucks.o Test.o
-	g++ Auction.o EBayBucks.o Test.o -o Test
+test: Auction.o EBayBucks.o main.o
+	g++ Auction.o EBayBucks.o main.o -o Test
 	./Test
 
 
