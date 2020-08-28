@@ -45,9 +45,10 @@ int main()
            PayTable::Multiplier m = p.calculateMultiplier( );  // 3 Aces is a 10-1 winner
            assert( m == PayTable::Multiplier::TENTIME );
            PayTable p1('1', '2', '3');
-           PayTable::Multiplier m1 = p.calculateMultiplier( ); 
-           assert( m1 = PayTable::Multiplier::ZERO);
-           
+           PayTable::Multiplier m1 = p1.calculateMultiplier( ); 
+           assert( m1 == PayTable::Multiplier::ZERO);
+        //    cout << "m1: " << m << endl;
+
 
            SlotMachine sl( "AKQJ987" );   // cheating...
            b.setWager( 100 );

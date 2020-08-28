@@ -25,12 +25,12 @@ Testing PayTable:(Also the function manageWager(). Should be considered together
            assert( m == PayTable::Multiplier::TENTIME );
            PayTable p1('1', '2', '3');
            PayTable::Multiplier m1 = p.calculateMultiplier( ); 
-           assert( m1 = PayTable::Multiplier::ZERO);
+           assert( m1 == PayTable::Multiplier::ZERO);
 Testing SlotMachine: (Different constructors)
-	SlotMachine s1( "ABCDEFG" );
-	s1.noDisplay();
-	b1.setWager( 10.00 );
-	s1.play( b1, 'A', 'B', 'C' );
+	    SlotMachine s1( "ABCDEFG" );
+	    s1.noDisplay();
+	    b1.setWager( 10.00 );
+	    s1.play( b1, 'A', 'B', 'C' );
            SlotMachine sl( "AKQJ987" );   // cheating...
            b.setWager( 100 );
            s.play( b, 'A', 'A', 'A' );
