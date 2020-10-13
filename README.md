@@ -1,6 +1,5 @@
 # cs16-24-32
 
-first three of UCSB 
 
 * cs16: cpp basics
 
@@ -14,4 +13,5 @@ first three of UCSB
 	* use assert() (#include <cassert0>) to check the function's precondition to avoid error
 	
 	* return 0; == return EXIT_SUCCESS  : tell the os the program executes normally
+
 
