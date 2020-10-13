@@ -1,0 +1,134 @@
+Yanming Chen 
+3239795
+
+Lab: (newline == RET)
+
+1. 
+man -k <WORD> or apropos <WORD>
+
+2. 
+which mv
+which sh
+
+They are both located in /usr/bin
+
+3. 
+find /usr/bin -type f -name '?r' (<or>) cd /usr/bin && find ?r
+man ar && man pr && man tr
+
+ar: creates and maintains groups of files combined into an archive.
+pr: a printing and pagination filter for text files.
+tr: copies the standard input to the standard output with substitution or deletion of selected characters.
+
+4. 
+cd /usr/bin && stat emacs
+cd /etc/alternatives/emacs && stat emacs
+cd /usr/bin/emacs-24.3 && stat emacs 
+<or> 
+readlink -f emacs
+
+The regular file being executed is /usr/bin/emacs-24.3
+
+5. 
+gcc -v
+/usr/bin/gcc -v
+
+The version of /usr/bin/gcc is 4.8.5 20150623 (Red Hat 4.8.5-39)
+The version of plain gcc is version 10.2.0
+Difference occurs becuase the environment variable is set to be under /usr/local/cs/bin, 
+where plain gcc got searched in this directory instead of /usr/bin.
+
+6. 
+chmod u+sx <FILE> 
+chmod o-w <FILE> 
+
+u+sx: add execute permission and set ID when execution for the owner
+o-w: remove write permission for other users
+
+7. 
+man find
+find /usr/local/cs -type d -newermt 20200914 \! -newermt 20201012
+find /usr/local/cs -type d -newermt 20200914 \! -newermt 20201012 | wc -l
+man head 
+find /usr/local/cs -type d -newermt 20200914 \! -newermt 20201012 | head -n 5
+(or)
+find /usr/local/cs -type d -mtime -28
+
+Using the find command and set the file type d and time range
+Using wc to count lines: 580.
+Using head to limit the lines of output. First 5: 
+/usr/local/cs
+/usr/local/cs/src/bash
+/usr/local/cs/src/bash/RCS
+/usr/local/cs/src/grep
+/usr/local/cs/src/grep/RCS
+
+8.
+which find
+cd /usr/bin
+find . -type l | wc -l 
+
+Go to the dir where find is in and use find, setting the type to be links,
+and wc to count the number of symlinks. 
+# of symlinks: 280 
+
+9.
+man ls
+ls -a -lt | tail -n 1
+
+-a flag to include hidden files
+-t flag to sort by last modified time
+Using tail to show the last one: 
+Dec 28  2013 librom1394.so.0.3.0
+
+10.
+man locale
+
+If not specified by the user, the locale program may get its info from the default setting of the computer.
+A series of environment variables can be configured and stored by locale program/file.
+
+11. 
+C-h a 
+downcase
+C-x b *Apropos*
+
+Using C-h to search for matching string "downcase":
+downcase-dwim
+downcase-region
+downcase-word
+
+12.
+C-h c 
+C-M-r
+C-M-V
+
+Using C-h c to check key function:
+C-M-v: scroll other window
+C-M-r: isearch backward regexp
+
+13.
+C-h c 
+C-g
+
+Using C-h c to check key function:
+C-g: keyboard quit
+
+14.
+C-h f 
+yank
+
+Using C-h f to check the description of a function:
+yank: reinsert the last stretch of killed text.
+
+15.
+C-h r
+C-s 
+Dired
+C-x d
+
+Checking and searching the manual for Deired, 
+invoke the command by C-x d <PATH>
+Differences: 1. Dired automatically displays hidden files while ls -l does not. 
+2. Dired has more features like searching and showing lines. 
+
+---

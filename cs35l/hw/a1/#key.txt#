@@ -1,0 +1,24 @@
+Assignment 1 
+
+Yanming Chen   3239795
+
+Lab #1: 
+1. man -k <WORD> (<or>) apropos <WORD>  
+
+
+Lab #2:
+1. which mv
+2. which sh
+
+
+Lab #3:
+1. find /usr/bin -type f -name '?r' (<or>) cd /usr/bin && find ?r
+2. man ar && man pr && man tr
+
+
+Lab #4:
+1. 
+
+
+Lab #5:
+1.  

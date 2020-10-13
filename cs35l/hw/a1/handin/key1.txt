@@ -1,0 +1,78 @@
+Yanming Chen 
+3239795
+
+Exercise:
+
+1.1
+1. emacs exer1.html
+2. C-s HTML Enter
+3. C-s scavenger Enter
+4. C-s self-referential Enter
+5. C-s arrow Enter
+6. C-e
+7. C-a
+8. -
+9. -
+10. C-x C-c
+
+1.2
+1. emacs exer2.html
+2. C-s <! Enter C-a C-@ C-n C-n C-w 
+3. C-s DELE Enter C-a C-@ C-e C-w
+4. C-s <! Enter C-a C-@ C-e C-n C-n C-w
+5. C-s <! Enter C-b C-b C-@ C-s > Enter C-w 
+
+1.3
+1. emacs exer3.html
+2. C-s Assignment 1 Enter Del 42 C-s Enter Del 42
+3. M-< C-s UTF-8 Enter C-@ M-b M-b C-w US-ASCII 
+4. C-M-S [^[:ascii:]] Enter C-a C-@ C-e C-w
+5. M-< C-s <ol> Enter Enter
+
+1.4
+1. cat exer2.html exer2.diff >exer4.html
+2. emacs exer4.html
+3. M-> C-p C-p C-f C-@ C-e M-w C-r </html> C-r C-e Enter C-y
+4. M-> C-r <! C-r C-@ C-n C-n C-n M-w C-r .</p> C-r C-e Enter C-y
+   M-> C-r <! C-r C-r C-@ C-n C-n C-n M-w C-r it</h2> C-r C-e Enter  C-y
+   M-> C-r <! C-r C-r C-r C-@ C-e M-w C-r s</h2> C-r C-e Enter C-y
+   M-> C-r <! C-r C-r C-r C-r C-@ C-e M-w C-r nt</h2> C-r C-e Enter C-y
+	# serching the comments from the bottom and find their section names before them
+5. C-s end Enter C-n C-@ M-> C-w 
+6. C-x u
+7. --> C-r end Enter C-n <!--
+8. M-< C-s <ol> C-s C-s C-s C-s C-s C-s  (7 occurances)
+9. M-< M-x replace-string Enter <ol> Enter <oL>
+10. diff -u exer1.html exer4.html >exer4.diff
+
+1.5
+1. M-x make-directory Enter ~/junk Enter
+2. M-x cd ~/junk Enter C-x C-f ~/junk/hello.c
+3. M-x compile Enter gcc hello.c -c hello
+4. M-! touch input && touch hello-output && echo t > input && ./hello < input | > hello-output
+5. t
+
+1.6
+1. C-x b *scratch* Enter  
+2. (format "%x" most-positive-fixnum) C-j 
+	# result: 1fffffffffffffff 
+	(format "%x" most-negative-fixnum) C-j 
+	# result: -2000000000000000 
+	The results are 2^61 on a 64-bit platform. This is the max capacity for an integer in GNU. The above 2* and 1f* are off by 1. 1f* + 1 = 2*, where this one position on the positive side may be 0. 
+3. (random "605-553-827") C-j
+	# result: 1813403841640337031
+4. (setq x (random)) C-j (setq y (random)) C-j
+	# x = 1951284079382188784, y = -357223327786231575 
+5. (setq p (*xy)) C-j (setq r (logior p most-negative-fixnum)) C-j
+	# p = -452746540205375449869359957504929200 
+	# r = -1452755310313450928
+6. (- r p)  # Not equal
+7. No. To be truly random in a mathematical sense means it is not deterministic and randomly selected from some distribution. However, pseudo-random numbers in GNU are not randomly picked but generated from some seeds. The results can be repeatable. Therefore, they are not strictly random numbers. 
+8. X, Y ~ Unif[1, 2^64]. Approximate using continuous uniform distribution with pdf fx = fy = 1/(2^64-1).
+Denote Z = X*Y, the joint probability P(Z < 2^64) can be calculated using cdf: integrating joint pdf of X and Y from 1 to 2^64, and X, Y are assumed to be independent, so the joint pdf is the double integral of the product of fx and fy.  
+=> P(Z < 2^64) = int_{1}^{2^64} int_{1}^{2^64/x} 1/(2^64-1)^2 dydx 
+	= 1/(2^64-1)^2 * (2^64*64*log2 - 2^64 + 1)
+	= 2.35*10^-18
+Thus, the probability of overflow is close to 1. 
+
+---
