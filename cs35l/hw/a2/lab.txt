@@ -1,0 +1,11 @@
+1. 
+ssh classury@lnxsrv07.seas.ucla.edu   # I choose 07 to be my personal host
+ssh-keygen
+<PASSPHRASE>    # enter passphrase for id_rsa  
+<PASSPHRASE>    # public key is also generated
+ssh-copy-id classury@lnxsrv09.seas.ucla.edu
+<PASSWORD>
+ssh classury@lnxsrv09.seas.ucla.edu
+
+2. 
+
