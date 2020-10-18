@@ -9,7 +9,8 @@ ssh classury@lnxsrv09.seas.ucla.edu
 
 2. 
 <INSTALL XQUARTZ>
-ssh -Y classury@lnxsrv07.seas.ucla.edu
+ssh -Y classury@lnxsrv07.seas.ucla.edu # -Y: trusted
+xeyes
 
 3. 
 ssh classury@lnxsrv07.seas.ucla.edu   # I choose 07 to be my personal host
