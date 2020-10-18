@@ -8,4 +8,15 @@ ssh-copy-id classury@lnxsrv09.seas.ucla.edu
 ssh classury@lnxsrv09.seas.ucla.edu
 
 2. 
+<INSTALL XQUARTZ>
+ssh -Y classury@lnxsrv07.seas.ucla.edu
+
+3. 
+ssh classury@lnxsrv07.seas.ucla.edu   # I choose 07 to be my personal host
+
+<TO HOP TO 06:>
+ssh -A lnxsrv09 
+ssh -A lnxsrv06 
+<OR>
+ssh -A -t lnxsrv09 ssh -A lnxsrv06
 
