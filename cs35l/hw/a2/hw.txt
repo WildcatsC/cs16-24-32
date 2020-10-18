@@ -1,0 +1,10 @@
+gpg2 --gen-key
+<SETTINGS>  # uid: yanmingchen
+gpg2 --export yanmingchen > hw-pubkey.asc
+gpg2 --output hw-pubkey.sig --detach-sig hw-pubkey.asc
+gpg2 --verify hw-pubkey.sig hw-pubkey.asc  # good signature from yanmingchen
+
+1. 
+
+
+
