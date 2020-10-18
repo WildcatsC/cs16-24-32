@@ -9,7 +9,7 @@ ssh classury@lnxsrv09.seas.ucla.edu
 
 2. 
 <INSTALL XQUARTZ>
-ssh -Y classury@lnxsrv07.seas.ucla.edu # -Y: trusted
+ssh -Y classury@lnxsrv07.seas.ucla.edu # -Y: trusted remote host, enable X-forwarding
 xeyes
 
 3. 
