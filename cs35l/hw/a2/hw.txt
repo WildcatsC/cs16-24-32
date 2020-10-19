@@ -5,6 +5,12 @@ gpg2 --output hw-pubkey.sig --detach-sig hw-pubkey.asc
 gpg2 --verify hw-pubkey.sig hw-pubkey.asc  # good signature from yanmingchen
 
 1. 
+My network is secure since I use ssh for remote connection. ssh uses asymmetric encryption to ensure that even an attacker obtain all the encrypted data or the public key across the network, it is not very likely that the info can be decrypted without the private key stored locally. Also, it is not viable for the man-in-the-middle attack to send fake requests because ssh can use digital signatures to verify authenticity. 
+
+(1) If the attack team only track my team's keystrokes but cannot access to our local files, the connection is still secure in most cases. As in lab exercise, we can setup ssh-agent to avoid typing passwords for remote connections, lowering the possibility for the attack team to observe more info. The attack is not likely to decrypt our data without the private key.  
+
+(2) If the attack team get our local data physically, it is probable that our connections are no longer secure. The private key can be obtained even if some local program, like ssh-agent, protects the private key using some passphrases. These passphrases are usually user generated and possible to break. Plus, it is likely that some history keystrokes are recorded by the system, so passwords for remote connections, passphrases for local protections, and all the signatures and private keys are probably insecure. Thus, losing control to a hard copy of the system and files makes the network connection insecure.  
 
 
+2. 
 
