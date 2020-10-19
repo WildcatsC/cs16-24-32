@@ -1,0 +1,23 @@
+1. 
+ssh classury@lnxsrv07.seas.ucla.edu   # I choose 07 to be my personal host
+ssh-keygen
+<PASSPHRASE>    # enter passphrase for id_rsa  
+<PASSPHRASE>    # public key is also generated
+ssh-copy-id classury@lnxsrv09.seas.ucla.edu
+<PASSWORD>
+ssh classury@lnxsrv09.seas.ucla.edu
+
+2. 
+<INSTALL XQUARTZ>
+ssh -Y classury@lnxsrv07.seas.ucla.edu # -Y: trusted remote host, enable X-forwarding
+xeyes
+
+3. 
+ssh classury@lnxsrv07.seas.ucla.edu   # I choose 07 to be my personal host
+
+<TO HOP TO 06:>
+ssh -A lnxsrv09 
+ssh -A lnxsrv06 
+<OR>
+ssh -A -t lnxsrv09 ssh -A lnxsrv06
+
