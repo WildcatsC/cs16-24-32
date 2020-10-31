@@ -1,3 +1,18 @@
 export LC_ALL='C'
 locale  # all 'C'
+sort /usr/share/dict/words -o words
+wget https://web.cs.ucla.edu/classes/fall20/cs35L/assign/assign3.html
+
+(Description after "#")
+tr -c 'A-Za-z' '[\n*]'  # substitute all the characters with a return except for letters A-Za-z.
+tr -cs 'A-Za-z' '[\n*]' # same as above but squeeze the repeated substitution with only one return.
+tr -cs 'A-Za-z' '[\n*]' | sort # same as above but the ouput strings seperated by returns are sorted.
+tr -cs 'A-Za-z' '[\n*]' | sort -u # same as above but cancels the repeated strings after sorting.
+tr -cs 'A-Za-z' '[\n*]' | sort -u | comm - words # output the unique strings repectively as column1 and column2,
+and ouput column3 is the common occurances. 
+tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words # ENGLISHCHECKER
+# outputs the unique strings of <words> and common strings of <words> and input as one column,
+ excludes the unique strings of input
+
+
 
