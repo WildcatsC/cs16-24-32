@@ -41,7 +41,7 @@ grep '<[^>]*>' | sed 's/<[^>]*>/ /g' |
 sort -u
 <end of buildwords>
 
-chmod +x buildwords
+chmod u+x buildwords
 cat hwnwdshw.htm | ./buildwords > hwords
 tr -cs "pk\'mnwlhaeiou" '[\n*]' < assign3.html | tr '[:upper:]' '[:lower:]' | sort -u
 tr -cs "pk\'mnwlhaeiou" '[\n*]' < hwords | tr '[:upper:]' '[:lower:]' | sort -u > temp
@@ -58,18 +58,3 @@ comm -23 misseng misshaw | wc -w  # 3 misspelled English words but not misspelle
 # e.g.  "kahiki", "wiki"
 comm -23 misshaw misseng | wc -w  # 112 misspelled Hawaiian words but not misspelled English words
 # e.g.  "words", "your"
-
-
-
-
-
-
-
-
-# miss
-cat assign3.html | ./buildwords | tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - hwords | wc -w
-
-
-
-
-

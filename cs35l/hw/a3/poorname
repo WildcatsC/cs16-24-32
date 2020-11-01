@@ -1,0 +1,68 @@
+#------if statements and case statements---------
+            #this block of code should check for:# -r passed? (use shift command here)
+            #was a start directory passed as an argument?
+            #is the start directory valid? If not, print to stderrand exit
+            #wrong usage or wrong number of arguments? -> print to stderrand exit
+if [ $# -eq "0" ]; then
+	echo "Error: empty input" >&2
+	exit 1
+fi
+
+if [ $# -ge 3 ]; then
+	echo "Error: at most 2 arguments" >&2
+	exit 2
+fi
+
+DIR=$(echo $@ | xargs -n1 | grep -v '-')
+
+if [ "$DIR" == "" ]; then
+	echo "Error: please enter a directory" >&2
+	exit 3
+fi
+
+if ![ -d $DIR ] then
+    echo "Error: this is not a directory" >&2
+    exit 4
+fi
+
+r=$(echo $@ | xargs -n1 | grep '-')
+# f=$(ls $DIR) 
+
+
+#---------------recursion check------------------
+            #this block of code checks for recursion:
+            #if recursion -> run recursion statement
+            #else -> run non-recursive block
+            if [ "$r" != ""]; then  
+                poorname() 
+            else 
+                poorname() 
+            fi
+#---------------non recursive block------------
+        #this block of code could be a function
+        #get all immediate filenames and print the ones that have invalid characters
+        #find all immediate and valid filenames and print the duplicates
+poorname() {
+    file=$(find $2 -type f -mindepth 1 -maxdepth 1)
+    directory=$(find $2 -type d -mindepth 1 -maxdepth 1)
+
+    for f in ${file}; do
+		if [[ $f =~ "^[A-Za-z\-\_\.]+$" ]] && [ ${#f} -le 14 ] && [ ${f:0:1} != "\." ]; then
+            echo $f >> valid
+		else 
+			echo $f >> invalid
+        fi
+	done
+    
+    for d in ${directory}; do 
+        if [[ $d =~ "^[A-Za-z\-\_\.]+$" ]] && [ ${#d} -le 14 ] && [ ${d:0:1} != "\." ]; then
+            echo "$d\/" >> valid
+		else 
+			echo "$d\/" >> invalid
+        fi
+	done
+
+    
+    
+    if [ $1 == "-r" ]
+}
