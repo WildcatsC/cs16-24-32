@@ -1,89 +1,93 @@
-hopt -s dotglob
+#------if statements and case statements---------
+            #this block of code should check for:# -r passed? (use shift command here)
+            #was a start directory passed as an argument?
+            #is the start directory valid? If not, print to stderrand exit
+            #wrong usage or wrong number of arguments? -> print to stderrand exit
+if [ $# -eq 0 ]; then
+    echo "Error: Empty input"
+    exit 1
+elif [ $1 == "." ]; then
+    DIR=`pwd`
+elif [ $# -eq 1 ]; then
+    DIR=$1
+elif [ $# -eq 2 ]; then
+    r=$1
+    DIR=$2
+elif [ $# -ge 3 ]; then
+    echo "Error: Too mamy arguments\n" 1>&2
+    # usage
+    exit 2
+fi
 
-#######################################################################
-## Functions                                                         ##
-#######################################################################
+if [[ $DIR =~ /$ ]]; then
+    DIR=$(echo $DIR | sed s/.$//)
+fi
 
-usage(){ printf "\nUsage: ./poornames [directoryName]\n\n" 1>&2; }
+if [ ${#DIR} == 2 ] && [ ${DIR:0:1} == '-' ]; then
+    echo "Error: Directory cannot start with \'-\'\n" 1>&2
+    exit 3
+fi
 
-alreadyExists(){
-    toCheck=$(echo $1 | tr '[:upper:]' '[:lower:]')
+if [ ! -d $DIR ]; then
+    echo "Error Please enter a directory" 1>&2
+    exit 4
+fi
+
+#---------------recursion check------------------
+            #this block of code checks for recursion:
+            #if recursion -> run recursion statement
+            #else -> run non-recursive block
+
+# usage(){ 
+#     echo "\nUsage: ./poornames [directoryName]\n\n" 1>&2; 
+#     }
+
+check_duplicate(){
+    input=$(echo $1 | tr '[:upper:]' '[:lower:]')
     shift
-    tempArr=("$@")
-    for item in $@; do
-	if [[ "$toCheck" == "$item" ]]; then
-	    return 0
-	fi
+    arr=("$@")
+    for i in $@; do
+	    if [[ "$toCheck" == "$i" ]]; then
+	        return 0
+	    fi
     done
     return 1
 }
 
-checker(){
-    declare -a validNames
+poorname(){
+
+    declare -a valid
     
     for x in $1/*; do
-	if [[ ! $x =~ $1/[_A-Za-z][_A-Za-z\.\-]{0,13}$ ]] ; then
-	    printf "$x\n"
-	elif alreadyExists $x ${validNames[@]} ; then
-	    printf "$x\n"
-	else
-	    validNames+=($(echo $x | tr 'A-Z' 'a-z'))
-	    
-	    #If valid and is a directory
-	    #Follow directory and run checker on it
-	    if [ -d $x ]; then
-		if [ -r $x ]; then
-		    checker $x
-		else
-		    printf "ERROR: Cannot read $x : Permission Denied\n" 1>&2
-		    printf "\tRead permissions required...\n" 1>&2
+	    if [[ ! $x =~ $1/[_A-Za-z][_A-Za-z\.\-]{0,13}$ ]] || [ ${x:0:1} == "\." ] || [ ${x:0:1} == "\-" ]; then
+	        if [ -d "$x" ]; then 
+                echo "${x}/" 
+            else
+                echo "$x"
+            fi
+	    elif check_duplicate $x ${valid[@]} ; then
+            if [ -d "$x" ]; then 
+                echo "${x}/" 
+            else
+	            echo "$x"
+            fi
+	    else
+	        valid+=($(echo $x | tr 'A-Z' 'a-z'))
+        fi
+        
+	    if [ -d "$x" ] && [ "$2" == "-r" ]; then
+		    if [ -r "$x" ]; then
+		        poorname $x $2
+		    else
+		        echo "Error: Cannot read $x : Permission Denied\n" 1>&2
 	        fi
-	    fi   
-	fi
+	    fi
     done
 }
                                                                                                                                                                 
-#######################################################################
-## Check arguments...                                                ##
-#######################################################################
+#---------------non recursive block------------
+        #this block of code could be a function
+        #get all immediate filenames and print the ones that have invalid characters
+        #find all immediate and valid filenames and print the duplicates
 
-#If no arguments, make it current directory
-#If . make it current directory
-if [ $# -eq 0 ]; then
-    dir=`pwd`
-elif [ $1 == "." ]; then
-    dir=`pwd`
-else
-    dir=$1
-fi
-
-
-if [[ $dir =~ /$ ]]; then
-    dir=$(echo $dir | sed s/.$//)
-fi
-
-
-#Check if not more than 1 argument
-if [ $# -gt 1 ]; then
-    printf "ERROR: Too mamy arguments\n" 1>&2
-    usage
-    exit 1
-fi
-
-#Check if argument starts with -
-if [ ${dir:0:1} = '-' ]; then
-    printf "ERROR: Argument cannot have \'-\'\n" 1>&2
-    exit 2
-fi
-
-#Check if argument is a directory
-if [ ! -d $dir ]; then
-    printf "ERROR: $dir is NOT a directory\n" 1>&2
-    exit 3
-fi
-
-#######################################################################
-## Run file name checking function...                                ##
-#######################################################################
-
-checker $dir
+poorname $DIR $r
