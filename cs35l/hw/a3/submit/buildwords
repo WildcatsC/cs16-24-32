@@ -1,9 +1,13 @@
-sed '/?/d' |
-sed '/<u>/d'|
-sed '/<\/u>/d' |
-tr '[A-Z]' '[a-z]' |
-tr '\`' '\‘' |
-tr '-' ' ' |
-tr -s ' ' '\n' |
-grep '<[^>]*>' | sed 's/<[^>]*>/ /g' |
-sort -u 
+grep -E "<td>.*</td>" $@ |
+sed 's/\?//g' |
+sed 's/<u>//g' |
+sed 's/<\/u>//g' | 
+sed 's/<td>//g' |
+sed "s/<\/td>//g" |
+sed "s/\`/\'/g" |
+tr ',' '\n' |
+tr ' ' '\n' |
+tr -s '\n' |
+tr [:upper:] [:lower:] |
+sed "/[^pk\'mnwlhaeiou]/d" |
+sort -u

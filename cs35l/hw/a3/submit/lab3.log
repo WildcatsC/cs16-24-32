@@ -22,39 +22,69 @@ and ouput column3 is the common occurances.
 
 tr -cs 'A-Za-z' '[\n*]' | sort -u | comm -23 - words # ENGLISHCHECKER
 # outputs the unique strings of input as one column,
- excludes the unique strings of <words> and common strings
+ excludes the unique strings of <words> and common strings,
+ => check any misspelling according to <words>.
 
 wget https://www.mauimapp.com/moolelo/hwnwdshw.htm
 vim buildwords
+
 <start of buildwords>
-	#1. remove ?, <u>, and </u>: 
-sed '/?/d' |
-sed '/<u>/d' |
-sed '/<\/u>/d' |
-	#2. upper to lower; grave accent ` to  apostrophe ‘; hyphen to space; space to \n:
-tr '[A-Z]' '[a-z]' |
-tr '\`' '\‘'  |
-tr '-' ' ' | 
+	#0. extract using ERE
+grep -E "<td>.*</td>" $@ |
+	#1. remove ? and tags: 
+sed 's/\?//g' |
+sed 's/<u>//g' |
+sed 's/<\/u>//g' | 
+sed 's/<td>//g' |
+sed "s/<\/td>//g" |
+	#2. upper to lower; 
+	grave accent ` to  apostrophe ‘; 
+	hyphen to space;
+	space to \n;
+	etc.
+sed "s/\`/\'/g" |
+tr [:upper:] [:lower:] |
+tr -s '-' ' ' | 
+tr -s ',' '\n' |
 tr -s ' ' '\n' |
-	#3. extract and replace:
-grep '<[^>]*>' | sed 's/<[^>]*>/ /g' |
+sed "/[^pk\'mnwlhaeiou]/d" |	
+	#4. sort unique
 sort -u
 <end of buildwords>
 
 chmod u+x buildwords
 cat hwnwdshw.htm | ./buildwords > hwords
-tr -cs "pk\'mnwlhaeiou" '[\n*]' < assign3.html | tr '[:upper:]' '[:lower:]' | sort -u
-tr -cs "pk\'mnwlhaeiou" '[\n*]' < hwords | tr '[:upper:]' '[:lower:]' | sort -u > temp
-cat temp > hwords
 
-cat assign3.html | ./buildwords | tr -cs "pk\'mnwlhaeiou" '[\n*]' | sort -u | comm -23 - hwords 
-cat hwords | tr -cs "pk\'mnwlhaeiou" '[\n*]' | sort -u | comm -23 - hwords  
+cat assign3.html | tr '[:upper:]' '[:lower:]'  
+| tr -cs "A-Za-z\'" '[\n*]' | sort -u 	# ENGLISHCHECKER
 
-cat assign3.html | ./buildwords | tr -cs "A-Za-z" '[\n*]' | sort -u | comm -23 - words > misseng
-cat misseng | wc -w  # 26 misspelled English words
-cat assign3.html | ./buildwords | tr -cs "A-Za-z" '[\n*]' | sort -u | comm -23 - hwords > misshaw
-cat misshaw | wc -w  # 135 misspelled Hawaiian words
-comm -23 misseng misshaw | wc -w  # 3 misspelled English words but not misspelled Hawaiian words
+cat hwords | tr -cs "pk\'mnwlhaeiou" '[\n*]' 
+| tr '[:upper:]' '[:lower:]' | sort -u 
+
+
+# use hwords as dict on assign3:
+cat assign3.html | tr -cs "A-Za-z" '[\n*]' 
+| sort -u | comm -23 - hwords 
+
+# on itself:
+cat hwords | tr '[:upper:]' '[:lower:]' 
+| sort -u | comm -23 - hwords  
+
+# count misspelled English words with ENGLISHCHECKER
+cat assign3.html | tr -cs "A-Za-z" '[\n*]' 
+| sort -u | comm -23 - words > misseng
+cat misseng | wc -w  # 83 misspelled English words
+
+# count mispelled Hawaiian words with HAWAIIANCHECKER
+cat assign3.html | tr -cs "A-Za-z" '[\n*]' 
+| sort -u | comm -23 - hwords > misshaw
+cat misshaw | wc -w  # 492 misspelled Hawaiian words
+
+
+comm -23 misseng misshaw | wc -w  
+# count misspelled English words but not misspelled Hawaiian words
 # e.g.  "kahiki", "wiki"
-comm -23 misshaw misseng | wc -w  # 112 misspelled Hawaiian words but not misspelled English words
+
+comm -23 misshaw misseng | wc -w  
+# count misspelled Hawaiian words but not misspelled English words
 # e.g.  "words", "your"

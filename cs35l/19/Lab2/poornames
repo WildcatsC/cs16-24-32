@@ -1,0 +1,44 @@
+#! /bin/bash
+#Basic poornames implementation
+
+DOMAIN=$PWD
+ARGS=$#
+
+#argument error handling
+if (($ARGS > 1))
+then
+    echo "Error: 2 or more arguments given." >&2
+    exit 1
+fi
+
+if (($ARGS == 1))
+then
+    DOMAIN=$1
+    if [ "${DOMAIN:0:1}" == "-" ]
+    then
+	echo "Error: argument cannot start with '-' char." >&2
+	exit 1
+    fi
+fi
+
+if [ !  -d "${DOMAIN}" ]
+then
+    echo "Error: argument is not the name of a directory." >&2
+    exit 1
+fi
+
+#all files returned by non-recursive find command in current directory
+files=`find "$DOMAIN" -mindepth 1 -maxdepth 1 -exec basename {} \;`
+
+#invalid filenames in violation of rules 1-4
+invalidNames=`echo "$files" | grep -E "^\.[a-zA-z_-]|^\.{2}[a-zA-z_-]
+|[^a-zA-Z\._-]|^-|[a-zA-Z\._-]{14,}"`
+
+#invalid filenames in violation of rule 5 (case insensitivity)
+caseDuplicates=`echo "$files" | sort -f | uniq -iD`
+
+#combines violators of rules 1-4 and 5, and then removes repeat offenders
+for item in `{ echo "$invalidNames"; echo "$caseDuplicates"; } | sort -u`;
+do
+    echo $DOMAIN/$item
+done

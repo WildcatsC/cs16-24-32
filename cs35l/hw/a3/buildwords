@@ -1,0 +1,19 @@
+grep -E "<td>.*</td>" $@ |
+	#1. remove ? and tags: 
+sed 's/\?//g' |
+sed 's/<u>//g' |
+sed 's/<\/u>//g' | 
+sed 's/<td>//g' |
+sed "s/<\/td>//g" |
+	#2. upper to lower; grave accent ` to  apostrophe ‘; hyphen to space; space to \n:
+sed "s/\`/\'/g" |
+tr '[A-Z]' '[a-z]' |
+tr '-' ' ' | 
+tr -s ' ' '\n' |
+	#3. other
+tr ',' '\n' |
+tr ' ' '\n' |
+tr -s '\n' |
+sed "/[^pk\'mnwlhaeiou]/d" |	
+	#4. sort
+sort -u

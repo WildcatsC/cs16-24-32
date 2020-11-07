@@ -1,0 +1,53 @@
+# Q1.
+The performance is improved because the bug of overriding is fixed.
+The buggy version might cause ambiguity when using both two options.
+Thus, I think the performance of ls gets better in terms of clarity.
+
+# Q2.
+Becuase -A -a and -a -A behave differently unlike before, 
+any bash scripts using ls with these two options might be affected. 
+This modification might introduce incompatibility
+between programs in the company. 
+
+
+# Q3.
+python randline.py /dev/null
+
+output:
+    Traceback (most recent call last):
+    File "randline.py", line 70, in <module>
+        main()
+    File "randline.py", line 64, in main
+        sys.stdout.write(generator.chooseline())
+    File "randline.py", line 34, in chooseline
+        return random.choice(self.lines)
+    File "/usr/local/cs/Python-2.7.14/lib/python2.7/random.py", line 277,
+    in choice
+        return seq[int(self.random() * len(seq))]  # raises IndexError if
+        seq is empty
+    IndexError: list index out of range
+
+This is because file null does not contain any lines for ranline.py to read. 
+But the function random.choice do not allow empty sequence. 
+Thus, an IndexError is raised.
+
+# Q4.
+python3 randline.py /dev/null
+
+output:
+File "randline.py", line 65
+          except IOError as (errno, strerror):
+                            ^
+    SyntaxError: invalid syntax
+
+This is because python2 and python3 has some syntax differences. 
+python2 IOError returns a 2-tuple while python3 returns only one.
+
+# Q5.
+Performance normally. 
+Bug in Q4 fixed in shuf.py, 
+compatible with both python2 and python3.
+
+
+
+

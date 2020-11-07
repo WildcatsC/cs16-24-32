@@ -1,0 +1,76 @@
+# Yanming Chen
+# 605553827
+
+# Download Coreutils 8.29
+wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-8.29.tar.xz
+wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-8.29.tar.xz.sig
+wget https://ftp.gnu.org/gnu/gnu-keyring.gpg
+
+# Verify keyring
+gpg --verify --keyring ./gnu-keyring.gpg coreutils-8.29.tar.xz.sig
+
+output: 
+    gpg: Signature made Wed 27 Dec 2017 10:29:05 AM PST 
+        using RSA key ID 306037D9
+    gpg: Good signature from "Pádraig Brady <P@draigBrady.com>"
+    gpg:                 aka "Pádraig Brady <pbrady@redhat.com>"
+    gpg:                 aka "Pádraig Brady <pixelbeat@gnu.org>"
+    gpg: WARNING: This key is not certified with a trusted signature!
+    gpg:          There is no indication that 
+        the signature belongs to the owner.
+    Primary key fingerprint: 6C37 DC12 121A 5006 BC1D 
+        B804 DF6F D971 3060 37D9
+# I think it is fine as long as the signature is good
+# (and warnings are not errors anyway...)
+ 
+# Untar the tar file
+tar -xf coreutils-8.29.tar.xz
+
+# Compile and install a copy of Coreutils into a temp dir 
+mkdir temp
+cd coreutils-8.29
+vim INSTALL     # for guide
+./configure --prefix=/u/eng/class/classury/Documents/temp
+make
+make install
+
+# Test bug
+cd src 
+./ls -a -A > ../ouput1
+./ls -A -a > ../ouput2
+diff ../ouput1 ../output2       # to see the difference between 2 outputs
+# output nothing, bugged
+
+# Go to Bug#30963 website and copy the location of the patch
+wget -O lsp.patch https://debbugs.gnu.org/cgi/
+bugreport.cgi?att=1;filename=0001-ls-A-now-overrides-a.patch;msg=10;bug=30963 
+patch -p1 < lsp.patch
+
+output:
+    patching file NEWS
+    Hunk #1 FAILED at 4.
+    1 out of 1 hunk FAILED -- saving rejects to file NEWS.rej
+    patching file src/ls.c
+    Hunk #1 succeeded at 1900 (offset -3 lines).
+    patching file tests/local.mk
+    patching file tests/ls/a-option.sh
+
+autoreconf -i -f    
+make
+
+# Test bug again (at top of source tree)
+../temp/bin/ls > ../output1     # unchanged version of ls
+../temp/bin/ls > ../output2 
+diff ../ouput1 ../output2
+# output nothing
+
+./ls -a -A > ../ouput1
+./ls -A -a > ../ouput2
+diff ../ouput1 ../output2
+output:
+    1,2d0
+    > .
+    > ..
+# bug fixed
+
+
