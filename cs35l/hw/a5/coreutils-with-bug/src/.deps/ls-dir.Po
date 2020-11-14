@@ -1,5 +1,3 @@
-ls-dir.o: ls-dir.c /usr/include/stdc-predef.h ls.h
-
-/usr/include/stdc-predef.h:
+ls-dir.o: ls-dir.c ls.h
 
 ls.h:

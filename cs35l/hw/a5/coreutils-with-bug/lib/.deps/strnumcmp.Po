@@ -1,8 +1,6 @@
-strnumcmp.o: strnumcmp.c /usr/include/stdc-predef.h ../config.h \
- strnumcmp-in.h strnumcmp.h \
- /usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stddef.h
-
-/usr/include/stdc-predef.h:
+strnumcmp.o: strnumcmp.c ../config.h strnumcmp-in.h strnumcmp.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include/stddef.h \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include/__stddef_max_align_t.h
 
 ../config.h:
 
@@ -10,4 +8,6 @@ strnumcmp-in.h:
 
 strnumcmp.h:
 
-/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stddef.h:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include/stddef.h:
+
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include/__stddef_max_align_t.h:

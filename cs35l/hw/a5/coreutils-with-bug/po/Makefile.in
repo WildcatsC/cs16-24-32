@@ -28,16 +28,16 @@ datadir = ${datarootdir}
 localedir = $(datadir)/locale
 gettextsrcdir = $(datadir)/gettext/po
 
-INSTALL = /usr/bin/install -c
+INSTALL = ../build-aux/install-sh -c
 INSTALL_DATA = ${INSTALL} -m 644
 MKINSTALLDIRS = $(top_builddir)/build-aux/mkinstalldirs
 mkinstalldirs = $(SHELL) $(MKINSTALLDIRS)
 
-GMSGFMT = /usr/bin/msgfmt
-MSGFMT = /usr/bin/msgfmt
-XGETTEXT = /usr/bin/xgettext
+GMSGFMT = /Users/stevenchan/anaconda3/bin/msgfmt
+MSGFMT = /Users/stevenchan/anaconda3/bin/msgfmt
+XGETTEXT = /Users/stevenchan/anaconda3/bin/xgettext
 MSGMERGE = msgmerge
-MSGMERGE_UPDATE = /usr/bin/msgmerge --update
+MSGMERGE_UPDATE = /Users/stevenchan/anaconda3/bin/msgmerge --update
 MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter

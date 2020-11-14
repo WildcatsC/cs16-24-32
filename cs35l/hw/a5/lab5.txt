@@ -1,0 +1,171 @@
+# download the buggy veriosn and build it
+wget https://web.cs.ucla.edu/classes/fall20/
+cs35L/assign/coreutils-with-bug.tar.gz
+tar -xf coreutils-with-bug.tar.gz
+mkdir temp
+cd coreutils-with-bug/
+
+# save an old version of it
+./configure --prefix=/u/eng/class/classury/
+Documents/cscpp/cs35l/hw/a5/temp 
+make 
+
+(some warnings and)
+Error: 
+        In file included from utimecmp.c:41:0:
+    utimens.h:2:5: error: conflicting types for 'futimens'
+    int futimens (int, char const *, struct timespec const [2]);
+        ^
+    In file included from utimecmp.h:25:0,
+                    from utimecmp.c:25:
+    /usr/include/sys/stat.h:373:12: note: 
+    previous declaration of 'futimens' was here
+    extern int futimens (int __fd, const struct timespec __times[2]) __THROW;
+                ^
+    make[3]: *** [utimecmp.o] Error 1
+    make[3]: Leaving directory `/w/home.10/class/classury/Documents
+    /cscpp/cs35l/hw/a5/coreutils-with-bug/lib'
+    make[2]: *** [all] Error 2
+    make[2]: Leaving directory `/w/home.10/class/classury/Documents
+    /cscpp/cs35l/hw/a5/coreutils-with-bug/lib'
+    make[1]: *** [all-recursive] Error 1
+    make[1]: Leaving directory `/w/home.10/class/classury/Documents
+    /cscpp/cs35l/hw/a5/coreutils-with-bug'
+    make: *** [all] Error 2
+
+As indicated, it was caused by conflicting types for the same function,
+in the file utimecmp.h and others. 
+
+# get the renaming patch
+wget https://web.cs.ucla.edu/classes/fall20/cs35L/assign/coreutils.diff
+patch -p0 coreutils.diff
+
+Output:
+    patching file lib/utimens.c
+    patching file lib/utimens.h
+    patching file src/copy.c
+    patching file src/tee.c
+    patching file src/touch.c
+The utimes.c, utimecmp.h, etc. are the files to be patched,
+as indicated above.
+The patch renames the function to solve the conflict.
+
+# safely build the buggy-timestamp version now 
+make && make install
+
+# reproduce the problem
+cd ../temp
+touch -d '1918-11-11 11:00 GMT' /run/user/$(id -u)/stamp-wwi-armistice
+touch /run/user/$(id -u)/stamp-now
+sleep 1
+touch /run/user/$(id -u)/stamp-future
+TZ=UTC0 ./ls -lt --full-time /run/user/$(id -u)/stamp*
+
+Output: 
+    -rw-r--r-- 1 classury class 0 1918-11-11 11:00:00.000000000 +0000 /run/user/8551/stamp-wwi-armistice
+    -rw-r--r-- 1 classury class 0 2020-11-14 19:12:22.605378346 +0000 /run/user/8551/stamp-future
+    -rw-r--r-- 1 classury class 0 2020-11-14 19:12:21.595347094 +0000 /run/user/8551/stamp-now
+The 1918 stamp is above the future one, as expected.
+
+# use gdb to debug 
+cd ./temp/bin
+gdb ./ls
+run -lt --full-time /run/user/$(id -u)/stamp*
+
+Output: 
+    -rw-r--r-- 1 classury class 0 1918-11-11 11:00:00.000000000 +0000 /run/user/8551/stamp-wwi-armistice
+    -rw-r--r-- 1 classury class 0 2020-11-14 19:12:22.605378346 +0000 /run/user/8551/stamp-future
+    -rw-r--r-- 1 classury class 0 2020-11-14 19:12:21.595347094 +0000 /run/user/8551/stamp-now
+Buggy, as expected.
+
+cd ./coreutils-with-bug/src
+vim ls.c 
+/compare        # search for function names like this
+
+# I found cmp_ctime and some other functions relating time
+# set bk pts 
+break compare_ctime
+run
+
+Output:
+    Starting program: /w/home.10/class/classury/Documents/cscpp/cs35l/hw/
+    a5/temp/bin/./ls -lt --full-time /run/user/$(id -u)/stamp*
+    -rw-r--r-- 1 classury class 0 1918-11-11 03:00:00.000000000 -0800 
+    /run/user/8551/stamp-wwi-armistice
+    -rw-r--r-- 1 classury class 0 2020-11-14 12:14:55.794588911 -0800 
+    /run/user/8551/stamp-future
+    -rw-r--r-- 1 classury class 0 2020-11-14 12:14:53.654522633 -0800 
+    /run/user/8551/stamp-now
+    [Inferior 1 (process 536) exited normally]
+Not the one
+
+# try another one
+berak compare_mtime
+run
+
+Output:
+    Starting program: /w/home.10/class/classury/Documents/cscpp/cs35l/hw/
+    a5/temp/bin/./ls -lt --full-time /run/user/$(id -u)/stamp*
+
+    Breakpoint 12, compare_mtime (a=0x617190, b=0x617240) at ls.c:2884
+    2884	static int compare_mtime (V a, V b) { return cmp_mtime (a, b, xstrcoll); }
+(keep stepping)
+    (gdb) s
+    cmp_mtime (cmp=0x404350 <xstrcoll>, b=0x617240, a=0x617190) at ls.c:2884
+    2884	static int compare_mtime (V a, V b) { return cmp_mtime (a, b, xstrcoll); }
+    (gdb) s
+    timespec_cmp (b=..., a=...) at ../lib/timespec.h:48
+    48	  int diff = a.tv_sec - b.tv_sec;
+    (gdb) s
+    49	  return diff ? diff : a.tv_nsec - b.tv_nsec;
+    (gdb) s
+    compare_mtime (a=0x617190, b=0x617240) at ls.c:2884
+    2884	static int compare_mtime (V a, V b) { return cmp_mtime (a, b, xstrcoll); }
+
+# This is how it computes the tiem difference (maybe)
+# So, start over again and check
+    Starting program: /w/home.10/class/classury/Documents/cscpp/cs35l/hw/
+    a5/temp/bin/./ls -lt --full-time /run/user/$(id -u)/stamp*
+
+    Breakpoint 12, compare_mtime (a=0x617190, b=0x617240) at ls.c:2884
+    2884	static int compare_mtime (V a, V b) { return cmp_mtime (a, b, xstrcoll); }
+    (gdb) s
+    cmp_mtime (cmp=0x404350 <xstrcoll>, b=0x617240, a=0x617190) at ls.c:2884
+    2884	static int compare_mtime (V a, V b) { return cmp_mtime (a, b, xstrcoll); }
+    (gdb) s
+    timespec_cmp (b=..., a=...) at ../lib/timespec.h:48
+    48	  int diff = a.tv_sec - b.tv_sec;
+    (gdb) watch diff
+    Watchpoint 18: diff
+    (gdb) s
+    Watchpoint 18: diff
+
+    Old value = 3
+    New value = -1613826000
+    Watchpoint 19: diff
+
+    Old value = 3
+    New value = -1613826000
+    timespec_cmp (b=..., a=...) at ../lib/timespec.h:49
+    49	  return diff ? diff : a.tv_nsec - b.tv_nsec;
+    (gdb) s
+    Watchpoint 18: diff
+
+    Old value = -1613826000
+    New value = 1075756403
+    0x00000000004064c7 in timespec_cmp (b=..., a=...) at ../lib/timespec.h:49
+    49	  return diff ? diff : a.tv_nsec - b.tv_nsec;
+    (gdb) s
+
+    Watchpoint 18 deleted because the program has left the block in
+    which its expression is valid.
+
+    compare_mtime (a=0x617190, b=0x617240) at ls.c:2884
+2884	static int compare_mtime (V a, V b) { return cmp_mtime (a, b, xstrcoll); }
+
+# and print var of a.tv_sec and b.tv_sec 
+# the calculation is too large for diff to store, maybe overflowed.
+
+# In timespec.h, try to avoid calculation
+cd ./coreutils-with-bug/lib
+vim timespec.h
