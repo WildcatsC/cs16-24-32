@@ -12,36 +12,29 @@ void reportErr(const char* msg);
 void strWrite(const char* str);
 void initLinebuf(char** linebuf, char* buf, size_t size);
 
-
 // Report error 
-// inline
 void reportErr(const char* msg){
     fprintf(stderr, "%s Error: %d\n", msg, errno);
     exit(1);
 }
 
 // Check IO Error 
-// inline
 void checkIOErr(FILE* p){
     if (ferror(p))      
         reportErr("IO Error");
 }
 
 // Check if malloc / realloc allocates memory successfully 
-// inline
 void checkMemErr(void* ptr){
     if (ptr == NULL)    
         reportErr("Memory Leak");
 }
 
-//  Decrypt each character 
-// inline
+// Unfrob each character 
 char decrypt(const char a){
     return a ^ 42;      // 00101010 is 0x2a, 42 
 }
 
-// Wrapper function 
-// inline
 int cmpWrapper(const void* a, const void* b){
     return frobcmp(*((const char**) a), *((const char**) b));
 }
@@ -81,27 +74,22 @@ int frobcmp(char const* a, char const* b){
 
 
 int main(void){
-    // Declare Variables, a pain in C 
+    int isEOF, isSpace;
     int (* cmp) (const void*, const void*);
     char* input, * input2, ** linebuf, curChar;
     size_t lineNum, lineSize, bufferSize, i, fileSize;
-    int isEOF, isSpace;
-    
-    // Initialize variables 
+
     bufferSize = 0, lineNum = 0, lineSize = 0, isEOF = feof(stdin);
     fileSize = 20;
-    
-    // Set frobcmp pointer
-    cmp = &cmpWrapper;
-    
+       
     // Setup Initial Buffer 
     input = (char*) malloc(sizeof(char) * fileSize);
     checkMemErr(input);
-    
-    /*                                                      *
-     *  To prevent getting a char with value EOF,           *
-     *  We use feof(STDIN_FILENO) as the condition for the loop.   *
-     */
+
+    //frobcmp pointer
+    cmp = &cmpWrapper;
+
+    // Use feof(STDIN_FILENO) to check EOF character
     while ( ! isEOF)
     {
         curChar = getchar();
@@ -131,7 +119,7 @@ int main(void){
             if ( ! bufferSize)
             {
                 free(input);
-                return 0;         // An Empty file or a file with only spaces
+                return 0;
             }
             // Append a space if there is none 
             if (input[bufferSize-1] != ' ')
@@ -140,7 +128,7 @@ int main(void){
                 break;
         }
         
-        lineNum++;  // New Line
+        lineNum++;  
         lineSize = 0;
     }
     linebuf = (char**) malloc(sizeof(char*) * lineNum);
