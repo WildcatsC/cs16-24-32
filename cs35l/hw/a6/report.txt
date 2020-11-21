@@ -11,9 +11,10 @@ Use a char buffer and a size_t variable for the return value of read() and write
 # A file that contained at least 5,000,000 bytes:
 head --bytes=5000001 /dev/urandom > test.txt
 
-To compare system calls with strace when copying files, I used the commands:
-   strace -c ./tr2b 'a' 'b' < test.txt > tr2b_out
-   strace -c ./tr2u 'a' 'b' < test.txt > tr2u_out
+# a.
+# Compare copying one file to another:
+strace -c ./tr2b 'a' 'b' < test.txt > tr2b_out
+strace -c ./tr2u 'a' 'b' < test.txt > tr2u_out
 
 tr2b:
 % time     seconds  usecs/call     calls    errors syscall
@@ -61,10 +62,10 @@ reason behind the small number of read and write calls,
  I would say that
 the implementation of stdlib optimizes away unnecessary system calls. 
 
-To compare system calls when copying a file to the terminal, I used the
-previous commands, with the last output redirection omitted:
-    strace -c ./tr2b 'a' 'b' < test.txt
-    strace -c ./tr2u 'a' 'b' < test.txt
+# b.
+# Compare copying files to terminal:
+strace -c ./tr2b 'a' 'b' < test.txt
+strace -c ./tr2u 'a' 'b' < test.txt
 
 tr2b:
 % time     seconds  usecs/call     calls    errors syscall
@@ -107,11 +108,12 @@ calls than the buffered version. We can also see that the tr2b makes far more
 write calls when outputting to the terminal screen as compared to copying
 to a new file.
 
-4. To test the time performance of both versions, I used the time command:
-   time ./tr2b 'abc' 'def' < test.txt > tr2b_time
-   time ./tr2u 'abc' 'def' < test.txt > tr2u_time
+# 4. 
+# Compare time performance:
+time ./tr2b 'abc' 'def' < test.txt > tr2b_time
+time ./tr2u 'abc' 'def' < test.txt > tr2u_time
 
-Which had the following outputs:
+#outputs:
 
 tr2b:
 real 0m0.402s
