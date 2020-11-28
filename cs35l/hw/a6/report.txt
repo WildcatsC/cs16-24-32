@@ -1,3 +1,5 @@
+# LAB
+
 # 1. tr2b.c
 Check for duplicates in the from string first. 
 check for EOF with feof(stdin)
@@ -11,28 +13,32 @@ Use a char buffer and a size_t variable for the return value of read() and write
 # A file that contained at least 5,000,000 bytes:
 head --bytes=5000001 /dev/urandom > test.txt
 
-# a.
+# compile 
+gcc -std=c99 tr2b.c -o tr2b
+gcc -std=c99 tr2u.c -o tr2u
+
+# (a)
 # Compare copying one file to another:
-strace -c ./tr2b 'a' 'b' < test.txt > tr2b_out
-strace -c ./tr2u 'a' 'b' < test.txt > tr2u_out
+strace -c ./tr2b 'a' 'b' < test.txt > b.out
+strace -c ./tr2u 'a' 'b' < test.txt > u.out
 
 tr2b:
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
- 66.46    0.000529           1       611           write
- 15.58    0.000124           0       613           read
-  5.28    0.000042          11         4           mprotect
-  4.77    0.000038           4         9           mmap
-  3.14    0.000025          25         1           munmap
-  3.02    0.000024           6         4           fstat
-  0.88    0.000007           4         2           close
-  0.88    0.000007           7         1           arch_prctl
-  0.00    0.000000           0         2           open
-  0.00    0.000000           0         1           brk
-  0.00    0.000000           0         1         1 access
-  0.00    0.000000           0         1           execve
+ 51.06    0.000504           1       611           write
+ 17.33    0.000171           0       613           read
+ 10.13    0.000100          11         9           mmap
+  5.98    0.000059          15         4           mprotect
+  3.85    0.000038          10         4           fstat
+  3.04    0.000030          15         2           open
+  2.33    0.000023          23         1           munmap
+  2.13    0.000021          21         1           execve
+  1.42    0.000014          14         1         1 access
+  1.32    0.000013           7         2           close
+  0.81    0.000008           8         1           brk
+  0.61    0.000006           6         1           arch_prctl
 ------ ----------- ----------- --------- --------- ----------------
-100.00    0.000796                  1250         1 total
+100.00    0.000987                  1250         1 total
 
 tr2u:
 % time     seconds  usecs/call     calls    errors syscall
@@ -52,17 +58,7 @@ tr2u:
 ------ ----------- ----------- --------- --------- ----------------
 100.00   49.847866              10000026         1 total
 
-From inspection, we can see that tr2b made exponentially fewer system
-calls than tr2u did. I'm not sure why tr2b only made 613 read calls,
-when tr2u made 5000003. Based on my implementation of tr2b, and the
-assumption that every getchar() call invokes a read() call, I would have
-expected tr2b to also have around 5000000 reads. If I were to guess the
-reason behind the small number of read and write calls,
-
- I would say that
-the implementation of stdlib optimizes away unnecessary system calls. 
-
-# b.
+# (b)
 # Compare copying files to terminal:
 strace -c ./tr2b 'a' 'b' < test.txt
 strace -c ./tr2u 'a' 'b' < test.txt
@@ -103,127 +99,125 @@ tr2u:
 ------ ----------- ----------- --------- --------- ----------------
 100.00   49.847866              10000026         1 total
 
-We can observe that the unbuffered version again makes far more system
-calls than the buffered version. We can also see that the tr2b makes far more
-write calls when outputting to the terminal screen as compared to copying
-to a new file.
+
+tr2b makes more write calls when outputting to the terminal screen 
+than copyingto another file. 
+System calls of tr2u stays the sames and is significantly greater than tr2b. 
+
 
 # 4. 
 # Compare time performance:
-time ./tr2b 'abc' 'def' < test.txt > tr2b_time
-time ./tr2u 'abc' 'def' < test.txt > tr2u_time
+time ./tr2b 'abc' 'def' < test.txt > b.time
+time ./tr2u 'abc' 'def' < test.txt > u.time
 
 #outputs:
 
 tr2b:
-real 0m0.402s
-user 0m0.349s
-sys 0m0.010s
+  real 0m0.402s
+  user 0m0.349s
+  sys 0m0.010s
 
 tr2u:
-real 0m12.336s
-user 0m3.384s
-sys 0m8.906s
+  real 0m12.336s
+  user 0m3.384s
+  sys 0m8.906s
 
-This confirms that the unbuffered version takes much longer than the buffered
-version on the same input data. This is obvious from the massive difference in
-the number of system calls.
+Summary: 
+The time comparison confirms that the unbuffered version takes much longer 
+than the buffered version on the same input data. 
+Thus, the buffered tr2b run much faster than the unbuffered tr2u.
+Both time and system calls are much less used by tr2b thanks to buffers.
 
 
 
- ===
+  === === ===
 
+
+
+# HOMEWORK
 
 # sfrob and sfrobu:
 
-To analyze the performance of sfrob and sfrobu, I used the time command with the
-5MB file I created earlier in the lab:
-    time ./sfrob < test.txt > out.txt
-    time ./sfrobu < test.txt > out.txt  
-    time ./sfrobu -f < test.txt > out.txt
+# Use time command to compare the performance of sfrob and sfrobu,
+# using the 5 MB test.txt.
+    
+time ./sfrob < test.txt > out.txt
+time ./sfrobu < test.txt > out.txt  
+time ./sfrobu -f < test.txt > out.txt
 
 sfrob:
-real    0m0.350s
-user    0m0.287s
-sys 0m0.008s
+  real    0m0.350s
+  user    0m0.287s
+  sys 0m0.008s
 
 sfrobu:
-real    0m12.613s
-user    0m3.493s
-sys 0m9.075s
+  real    0m12.613s
+  user    0m3.493s
+  sys 0m9.075s
 
 sfrobu -f:
-real    0m12.724s
-user    0m3.410s
-sys 0m9.268s
+  real    0m12.724s
+  user    0m3.410s
+  sys 0m9.268s
 
-As can be seen from the time outputs, the unbuffered version runs much slower
+The unbuffered version runs much slower
 than the buffered version.
 
-I then checked the performance of sfrob and sfrobu on input files of length:
-(0, 100, 10000, and 1000000) lines. To create the files I used the wc command
-to count the line length of test.txt, and then changed
-the bytes field to get the desired number of lines:
+Use wc command to count the line length of test.txt
+and then changed the bytes field to get the desired number of lines:
 
-    wc -l test.txt
-       output: 19662
 
-    head --bytes=270000000 /dev/urandom | wc -l
-       	 output: 1056019
-    head --bytes=270000000 /dev/urandom > millLine.txt
+touch 0.txt
 
-    head --bytes=2700000 /dev/urandom | wc -l
-    	 output: 10406
-    head --bytes=2700000 /dev/urandom > tenKLine.txt
+head --bytes=27000 /dev/urandom | wc -l
+output: 112
+head --bytes=27000 /dev/urandom > 100.txt
 
-    head --bytes=27000 /dev/urandom | wc -l
-    	 output: 112
-    head --bytes=27000 /dev/urandom > hundLine.txt
+head --bytes=2700000 /dev/urandom | wc -l
+output: 10406
+head --bytes=2700000 /dev/urandom > 10k.txt
 
-    touch zeroLine.txt
+head --bytes=270000000 /dev/urandom | wc -l
+output: 1056019
+head --bytes=270000000 /dev/urandom > 1m.txt
 
-I then ran time commands on the newly created files to attempt to model the time
+    
+Use time commands on the newly created files to attempt to model the time
 complexity of sfrobu:
 
-    time ./sfrobu < zeroLine.txt > out.txt
-    time ./sfrobu < hundLine.txt > out.txt
-    time ./sfrobu < tenKLine.txt > out.txt
-    time ./sfrobu < millLine.txt > out.txt
+time ./sfrobu < 0.txt > out.txt
+time ./sfrobu < 100.txt > out.txt
+time ./sfrobu < 10k.txt > out.txt
+time ./sfrobu < 1m.txt > out.txt
 
-I decided to focus on the real component of the time commands' output  when
-modeling the time complexity of sfrobu:
+# num lines | time (minutes.seconds):
 
-num lines | time (minutes.seconds)
----------------------------------
-0	  |		 0m0.009s
-100	  |	    	 0m0.075s
-10000	  |		 0m5.597s
-1000000	  |	      11m.27.604s
+  0	  |		 0m0.009s
+  100	  |	    	 0m0.075s
+  10000	  |		 0m5.597s
+  1000000	  |	      11m.27.604s
 
 Given the time complexity of qsort, nlog(n), I assumed that the CPU time cost
 function would be of the form: C(n) = K * n * log(n)
-I tested this guess on the number of seconds sfrobu took for millLines, by
-soliving for K.
-(11 * 60 + 27.604) / (1000000 * log(1000000)) = K
-K = 0.0000345
+I tested this guess on the number of seconds sfrobu took for 1m.txt, by
+soliving for K:
+  (11 * 60 + 27.604) / (1000000 * log(1000000)) = K
+  K = 0.0000345
 
-I then checked if this held for tenKLines and hundLines.
-0.0000345 * 10000 * log(10000) = 4.584 -> 5.597
-0.0000345 * 100 * log(100) = 0.023 -> 0.075
+Checke if this is valid for 10k.txt and 100.txt
+  0.0000345 * 10000 * log(10000) = 4.584 -> 5.597
+  0.0000345 * 100 * log(100) = 0.023 -> 0.075
 
-Although the result wasn't exactly what was measured by the time command, I
-attributed the difference in seconds to be based on significant figure error,
-considering the scale of the numbers I was multiplying and dividing by. However,
-the form n * log(n) gave me results consistent with the significant figures I
-was measuring. In general, I would model the CPU cost as a function of n lines:
+Although the result wasn't exactly what was measured, 
+the form n * log(n) gave results consistent with the significant figures I
+was measuring. In general, I would guess the CPU cost as a function of n lines:
 C(n) = K * n * log(n).
 
-To determine the system calls that sfrobu uses to allocate memory, I used the
-following strace commands:
-    strace -c ./sfrobu < hundLine.txt > outputS.txt
-    strace -c ./sfrobu < tenKLine.txt > outputS.txt
+# Determine the system calls that sfrobu uses to allocate memory:
+strace -c ./sfrobu < 100.txt > outputS.txt
+strace -c ./sfrobu < 10k.txt > outputS.txt
 
-hundLine.txt:
+100.txt:
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
  57.03    0.254198           9     27001           write
@@ -241,7 +235,7 @@ hundLine.txt:
 ------ ----------- ----------- --------- --------- ----------------
 100.00    0.445750                 54033         1 total
 
-tenKLine.txt:
+10k.txt:
 % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
  58.04   15.047635           6   2699956           write
@@ -259,14 +253,8 @@ tenKLine.txt:
 ------ ----------- ----------- --------- --------- ----------------
 100.00   25.928124               5399996         1 total
 
-From inspection, I observed that mmap and munmap were the two system calls that
-increased in number when the number of lines increased from 100 to 10000. From
-this observation, I deduced that they were the two system calls sfrobu used to
-(re)allocate memory. After this realization, I used the command man mmap to find
-the arguments with which these system calls would be called with.
+Calls for mmap and munmap were the two system calls that increased 
+when the number of lines grow from 100 to 10000. 
+They might be the two system calls sfrobu used to allocate/reallocate memory. 
 
-void *mmap(void *addr, size_t length, int prot, int flags,
-                  int fd, off_t offset);
-int munmap(void *addr, size_t length);
 
---------------------------------------------------------------------------------
