@@ -1,16 +1,10 @@
-Name: Thant Zin Oo
-UID: 705172144
-
-Lab 6 Report
---------------------------------------------------------------------------------
-
-1.
-I first downloaded simpgmp.c using wget, and then compiled it with the -lgmp flag.
+#1.
+Downloaded simpgmp.c using wget, and then compiled it with the -lgmp flag.
    wget https://web.cs.ucla.edu/classes/fall19/cs35L/assign/simpgmp.c
    gcc simpgmp.c -lgmp -o simpgmp
 
-2.
-I ran the program to compute 2^24.
+#2.
+Run the program to compute 2^24.
    ./simpgmp
    output: ./simpgmp: usage: ./simpgmp exponent
    ./simpgmp 24
@@ -38,8 +32,8 @@ I realized that the final EOF character was being included in the count. As such
 the total number of decimal digits was correct, as were the beginning and ending
 digits.
 
-3.
-To see which dynamic libraries simpgmp uses, I used the ldd command.
+#3.
+To see which dynamic libraries simpgmp uses, use the ldd command.
    man ldd
    ldd simpgmp
    
@@ -50,7 +44,7 @@ Output:
         /lib64/ld-linux-x86-64.so.2 (0x00007f801d941000)
 
 4.
-To see which sys calls simpgmp makes, I used the strace command.
+Use the strace command to see which sys calls simpgmp makes.
    strace ./simpgmp
 
 Output:
@@ -94,7 +88,8 @@ The program calls the dynamic linker with the initial access and open sys calls.
 then loads libgmp.so.10 and libc.so.6 with open and mmap calls. The sys calls related to
 dynamic linking are then: access(), open() and mmap().
 
-5. I ran the given command on lnxsrv07 to find my list of commands to investigate.
+#5. 
+Run the command on lnxsrv07 to find a list of commands.
    ls /usr/bin | awk '(NR-705172144)%251 == 0'
 
 Output:
@@ -110,8 +105,8 @@ rhn_register
 svnserve
 xargs
 
-6. 
-I ran ldd on each command from the previous output.
+#6. 
+Run ldd on each command from the previous output.
 ldd cat
         linux-vdso.so.1 =>  (0x00007ffe35dd9000)
         libc.so.6 => /lib64/libc.so.6 (0x00007f78bd8fb000)
@@ -298,22 +293,17 @@ ldd xargs
         libc.so.6 => /lib64/libc.so.6 (0x00007f9e4b506000)
         /lib64/ld-linux-x86-64.so.2 (0x00007f9e4b8d4000)
 
-In terms of error messages, I wasn't sure if the ldd output for pnmquantall
-(not a dynamic executable) was an error.  Upon closer examination of the program,
-I found that it was a Perl script, which isn't compiled with gcc to begin with.
 
-7.
-To obtain a sorted list of all the dynamic libraries used in my list, I wrote a shell
-script to invoke ldd on each command in my unique list.
+#7.
+The shell script to invoke ldd on each command in my unique list:
 
 #!/bin/sh
-
 for i in $(ls /usr/bin | awk '(NR-705172144)%251 == 0')
 do
    ldd '/usr/bin/'$i
 done
 
-I then used sed to remove memory addresses and anything following the string "=>",
+I used sed to remove memory addresses and anything following the string "=>",
 and used sort -u to sort and remove duplicates. Below was my final pipeline of
 commands:
 
@@ -404,5 +394,3 @@ Output:
         libxml2.so.2
         libz.so.1
         linux-vdso.so.1
-
---------------------------------------------------------------------------------

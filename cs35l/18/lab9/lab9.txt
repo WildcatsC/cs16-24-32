@@ -1,8 +1,3 @@
-Wang, Zheng (404855295)
-CS35L lab9.txt
-
-#   NOTE: this lab is done in ~/lab9
-
 1. Get a copy of the Diffutils repo
 Commands:
 

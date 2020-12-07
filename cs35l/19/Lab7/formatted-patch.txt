@@ -1,7 +1,7 @@
 From d66e27660657b82139c47c236b256a5a5935ee02 Mon Sep 17 00:00:00 2001
-From: Thant Zin Oo <classmfk@lnxsrv07.seas.ucla.edu>
-Date: Wed, 20 Nov 2019 21:10:43 -0800
-Subject: [PATCH] 2019-11-20  Thant Zin Oo  <classmfk@lnxsrv07.seas.ucla.edu>
+From: Yanming Chen <classury@lnxsrv07.seas.ucla.edu>
+Date: Fri, 4 Dec 2020 21:10:43 -0800
+Subject: [PATCH] 2020-12-04  Yanming Chen  <classury@lnxsrv07.seas.ucla.edu>
 
 	* quote-3.0-patch.txt:
 	This patch was created in response to a change in customer requirements
