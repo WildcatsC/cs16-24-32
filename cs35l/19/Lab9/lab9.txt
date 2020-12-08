@@ -1,21 +1,17 @@
-Thant Zin Oo
-705172144
-
-Lab 9 Report
--------------------------------------------------------------------------------------------------------------
-
-1. I calculated the disk space of the working directory (without the .git folder) with the commands:
+#1. 
+Disk space of the working directory (without the .git folder):
    cd ~eggert/src/gnu/emacs-CS-35L
    git count-objects -v -H | grep 'size-pack'
 
-To find the size of the git repository, I used the command:
+Size of the git repository:
    cd .git/
    du -sh
 
+Output:
 Size of working directory: 333.34 MiB
 Size of Git repository: 350 MiB
 
-To find the largest file(s) in the Git repository, I ran the following command:
+largest file (list and order by size):
    du -h | sort
 
 Output:   
@@ -67,9 +63,10 @@ Output:
 848K    ./logs
 96K     ./logs/refs/heads/feature
 
-From inspection, I determined that the file ./objects/pack was the largest file in the repository.
+The file ./objects/pack is the largest in this repo.
 
-2. To count the number of local and remote branches, I ran the following commands:
+#2. 
+Count the number of local and remote branches:
    git branch | wc -l
    git branch -r | wc -l
 
@@ -77,29 +74,29 @@ Output:
 176
 177
 
-To verify that these were the correct number of local/remote branches, I ran the command:
+Verification:
    git branch -a | wc -l
 
 Output:
 353
-
-This was in line with my results, as the -a argument shows both local and remote branches, which aligns
-with my previous findings.
+( = 176 + 177 )
 
 Local branches: 176
 Remote branches: 177
 
-3. To find the number of repositories remote to ~eggert/src/gnu/emacs-CS-35L, I used the command:
+#3. 
+The number of repositories remote to ~eggert/src/gnu/emacs-CS-35L:
    git remote -v
 
 Output:
 origin  https://git.savannah.gnu.org/git/emacs.git (fetch)
 origin  https://git.savannah.gnu.org/git/emacs.git (push)
 
-From inspection, I determined that there was one remote repository, located at
+Remote repository locates at:
 https://git.savannah.gnu.org/git/emacs.git
 
-4. I found the ten local branches most recently commited to with the command:
+#4. 
+10 most recently commits:
    git branch --sort=-committerdate | head -n 10
 
 Output:
@@ -114,23 +111,24 @@ Output:
   scratch/jit-lock-antiblink-cleaned-up
   emacs-26
 
-5. To find the number of commits in the master branch, I ran the following command:
+#5. 
+Find the number of commits in master branch:
    git rev-list --count master
 
 Output:
 139583
 
-6. To find the percentage of commits that are in the master branch, out of all commits across all branches,
-I first found the number of commits across all branches with the command:
+#6. 
+Total commits across all branches:
   git rev-list --all --count
 
 Output:
 143910
 
-I then calculated the percentage with a calculator, by plugging in 139583 / 143910. The resulting percentage
-was 0.9699 or 97%.
+=> 139583 / 143910 = 97%.
 
-7. I found the ten people with the most master-branch commits since 2013 with the command:
+#7 
+10 contributor with the most master-branch commits since 2013:
    git shortlog -sn --since="2013" | head -n 10
 
 Output:
@@ -145,8 +143,9 @@ Output:
    438  Alan Mackenzie
    412  Juri Linkov
 
-8. I reloaded Putty with X11 forwarding enabled and ran gitk inside ~eggert/src/gnu/emacs-CS-35L. I then manually
-searched the commits and stitched together a diagram of the commit relationships.
+#8. 
+(ssh -Y into SEASnet)
+Manually searched the commits and stitched together a diagram of the commit relationships.
 
 Commit Index:
 0: 4ea37c2b8b0c5a68fde59770c3536195e0972217
@@ -172,8 +171,11 @@ Commit Index:
 				 O- ... -O- ... -O
 				        (7)
 
-(Unlabelled vertices are just intermediary commits that stitch together the commits above)
-In terms of what likely happened to cause this commit-graph neighborhood, from the starting commit hash (0),
-development branched off from the master branch (top horizontal) and the secondary feature branch. There was
-a merge commit combining the two branches, signified by (4). Development continued on a separate branch,
-encompassing commits (5-7). These features were then merged back into master for commit (9), and later (10).
+From the starting commit hash (0),
+development branch went off from the master branch (top horizontal) and the secondary feature branch. 
+There was a merge commit combining these two branches, signified by (4). 
+Development continued on a separate branch(5-7). 
+These features were merged back into master for commit (9) and (10).
+Unlabelled vertices are intermediary commits that stitch together the commits.
+
+
